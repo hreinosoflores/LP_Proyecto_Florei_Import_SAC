@@ -7,11 +7,11 @@ import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
 
-import interfaces.Reporte3Interface;
+import interfaces.ReporteProductoInterface;
 import modelos.Reporte3;
 import utils.MySQLConexion;
 
-public class GestionReporte3 implements Reporte3Interface {
+public class GestionReporte3 implements ReporteProductoInterface {
 
 	@Override
 	public ArrayList<Reporte3> listaCbo(String tip, int stk1, int stk2) {

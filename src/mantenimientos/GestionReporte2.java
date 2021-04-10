@@ -5,11 +5,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 
-import interfaces.Reporte2Interface;
+import interfaces.ReporteComprobanteInterface;
 import modelos.ReporteComprobante;
 import utils.MySQLConexion;
 
-public class GestionReporte2 implements Reporte2Interface {
+public class GestionReporte2 implements ReporteComprobanteInterface {
 
 	@Override
 	public ArrayList<ReporteComprobante> listado(String tipo) {
