@@ -2,12 +2,12 @@ package interfaces;
 
 import java.util.ArrayList;
 
-import modelos.Reporte2;
+import modelos.ReporteComprobante;
 
 public interface Reporte2Interface {
 
-	public ArrayList<Reporte2> listado(String tipo);
+	public ArrayList<ReporteComprobante> listado(String tipo);
 
-	public ArrayList<Reporte2> listado();
+	public ArrayList<ReporteComprobante> listado();
 
 }

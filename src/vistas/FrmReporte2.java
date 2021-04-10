@@ -35,7 +35,7 @@ import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 
 import mantenimientos.GestionReporte2;
-import modelos.Reporte2;
+import modelos.ReporteComprobante;
 
 public class FrmReporte2 extends JInternalFrame {
 
@@ -161,7 +161,7 @@ public class FrmReporte2 extends JInternalFrame {
 	public void generarPDF(String tipo) {
 
 		GestionReporte2 gr = new GestionReporte2();
-		ArrayList<Reporte2> lista = gr.listado(tipo = leerTipo());
+		ArrayList<ReporteComprobante> lista = gr.listado(tipo = leerTipo());
 		if (lista.isEmpty()) {
 			JOptionPane.showMessageDialog(null, "No hay datos para imprimir");
 
@@ -195,7 +195,7 @@ public class FrmReporte2 extends JInternalFrame {
 				tabla.addCell("Dirección");
 				tabla.addCell("Teléfono");
 				tabla.addCell("Email");
-				for (Reporte2 r : lista) {
+				for (ReporteComprobante r : lista) {
 					tabla.addCell(r.getCod_cli() + "");
 					tabla.addCell(r.getNom_cli());
 					tabla.addCell(r.getApe_cli());
@@ -228,9 +228,9 @@ public class FrmReporte2 extends JInternalFrame {
 	public void consultar(String tipo) {
 
 		GestionReporte2 gr = new GestionReporte2();
-		ArrayList<Reporte2> listado = gr.listado(tipo = leerTipo());
+		ArrayList<ReporteComprobante> listado = gr.listado(tipo = leerTipo());
 		modelo.setRowCount(0);
-		for (Reporte2 r : listado) {
+		for (ReporteComprobante r : listado) {
 			Object[] datos = { r.getCod_cli(), r.getNom_cli(), r.getApe_cli(), r.getTip_doc(), r.getNum_doc(),
 					r.getRuc_cli(), r.getDirec_cli(), r.getDirec_cli(), r.getTelef_cli(), r.getEmail_cli()
 

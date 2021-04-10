@@ -1,7 +1,7 @@
 package modelos;
 
 public class Empresa {
-	private int cod_emp, cod_cli;
+	private int cod_emp, usu_creado_emp;
 	private String raz_soc_emp, direc_emp, ruc_emp, email_emp, telefono;
 
 	public int getCod_emp() {
@@ -12,12 +12,12 @@ public class Empresa {
 		this.cod_emp = cod_emp;
 	}
 
-	public int getCod_cli() {
-		return cod_cli;
+	public int getUsu_creado_emp() {
+		return usu_creado_emp;
 	}
 
-	public void setCod_cli(int cod_cli) {
-		this.cod_cli = cod_cli;
+	public void setUsu_creado_emp(int usu_creado_emp) {
+		this.usu_creado_emp = usu_creado_emp;
 	}
 
 	public String getRaz_soc_emp() {
@@ -70,6 +70,20 @@ public class Empresa {
 			return "EMP0" + codigo;
 		else
 			return "EMP" + codigo;
+	}
+
+	public Empresa(int cod_emp, int usu_creado_emp, String raz_soc_emp, String direc_emp, String ruc_emp,
+			String email_emp, String telefono) {
+		this.cod_emp = cod_emp;
+		this.usu_creado_emp = usu_creado_emp;
+		this.raz_soc_emp = raz_soc_emp;
+		this.direc_emp = direc_emp;
+		this.ruc_emp = ruc_emp;
+		this.email_emp = email_emp;
+		this.telefono = telefono;
+	}
+
+	public Empresa() {
 	}
 
 }

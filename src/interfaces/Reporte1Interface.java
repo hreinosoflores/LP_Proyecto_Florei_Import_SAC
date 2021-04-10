@@ -2,9 +2,9 @@ package interfaces;
 
 import java.util.ArrayList;
 
-import modelos.Reporte1;
+import modelos.ReporteProducto;
 
 public interface Reporte1Interface {
-	ArrayList<Reporte1> listado(String tipo, String fec_ini, String fec_fin);
+	ArrayList<ReporteProducto> listado(String tipo, String fec_ini, String fec_fin);
 
 }

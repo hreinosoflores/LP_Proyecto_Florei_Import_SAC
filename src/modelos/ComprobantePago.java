@@ -1,8 +1,11 @@
 package modelos;
 
+import java.util.Date;
+
 public class ComprobantePago {
-	private int num_comp, cod_cli;
-	private String fec_comp, hor_comp, tip_comp, lug_comp;
+	private int num_comp, cod_cli, usu_creador_comp;
+	private String tip_comp, lug_comp;
+	private Date fec_comp;
 
 	public int getNum_comp() {
 		return num_comp;
@@ -12,20 +15,20 @@ public class ComprobantePago {
 		this.num_comp = num_comp;
 	}
 
-	public String getFec_comp() {
-		return fec_comp;
+	public int getCod_cli() {
+		return cod_cli;
 	}
 
-	public void setFec_comp(String fec_comp) {
-		this.fec_comp = fec_comp;
+	public void setCod_cli(int cod_cli) {
+		this.cod_cli = cod_cli;
 	}
 
-	public String getHor_comp() {
-		return hor_comp;
+	public int getUsu_creador_comp() {
+		return usu_creador_comp;
 	}
 
-	public void setHor_comp(String hor_comp) {
-		this.hor_comp = hor_comp;
+	public void setUsu_creador_comp(int usu_creador_comp) {
+		this.usu_creador_comp = usu_creador_comp;
 	}
 
 	public String getTip_comp() {
@@ -44,12 +47,12 @@ public class ComprobantePago {
 		this.lug_comp = lug_comp;
 	}
 
-	public int getCod_cli() {
-		return cod_cli;
+	public Date getFec_comp() {
+		return fec_comp;
 	}
 
-	public void setCod_cli(int cod_cli) {
-		this.cod_cli = cod_cli;
+	public void setFec_comp(Date fec_comp) {
+		this.fec_comp = fec_comp;
 	}
 
 	public String codigochar() {
@@ -63,4 +66,18 @@ public class ComprobantePago {
 		else
 			return "COM" + codigo;
 	}
+
+	public ComprobantePago(int num_comp, int cod_cli, int usu_creador_comp, String tip_comp, String lug_comp,
+			Date fec_comp) {
+		this.num_comp = num_comp;
+		this.cod_cli = cod_cli;
+		this.usu_creador_comp = usu_creador_comp;
+		this.tip_comp = tip_comp;
+		this.lug_comp = lug_comp;
+		this.fec_comp = fec_comp;
+	}
+
+	public ComprobantePago() {
+	}
+
 }

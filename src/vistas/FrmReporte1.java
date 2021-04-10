@@ -35,7 +35,7 @@ import com.itextpdf.text.pdf.PdfWriter;
 import com.toedter.calendar.JDateChooser;
 
 import mantenimientos.GestionReporte1;
-import modelos.Reporte1;
+import modelos.ReporteProducto;
 
 public class FrmReporte1 extends JInternalFrame {
 
@@ -166,12 +166,12 @@ public class FrmReporte1 extends JInternalFrame {
 		String fec_fin = leerfec_fin();
 
 		GestionReporte1 gr = new GestionReporte1();
-		ArrayList<Reporte1> lista = gr.listado(tipo, fec_ini, fec_fin);
+		ArrayList<ReporteProducto> lista = gr.listado(tipo, fec_ini, fec_fin);
 		if (lista.isEmpty()) {
 			JOptionPane.showMessageDialog(null, "No hay datos para mostrar");
 		} else {
 			modelo.setRowCount(0);
-			for (Reporte1 r : lista) {
+			for (ReporteProducto r : lista) {
 				Object[] fila = { r.getCodigo(), r.getRegistro(), r.getCliente(), r.getProducto(), r.getCant(),
 						r.getPago() };
 				modelo.addRow(fila);
@@ -197,7 +197,7 @@ public class FrmReporte1 extends JInternalFrame {
 		String fec_ini = leerfec_ini();
 		String fec_fin = leerfec_fin();
 		GestionReporte1 gr = new GestionReporte1();
-		ArrayList<Reporte1> lista = gr.listado(tipo, fec_ini, fec_fin);
+		ArrayList<ReporteProducto> lista = gr.listado(tipo, fec_ini, fec_fin);
 		if (lista.isEmpty()) {
 			JOptionPane.showMessageDialog(null, "No hay datos para imprimir");
 
@@ -229,7 +229,7 @@ public class FrmReporte1 extends JInternalFrame {
 				tabla.addCell("Producto");
 				tabla.addCell("Cantidad");
 				tabla.addCell("Monto");
-				for (Reporte1 r : lista) {
+				for (ReporteProducto r : lista) {
 					tabla.addCell(r.getCodigo() + "");
 					tabla.addCell(r.getRegistro());
 					tabla.addCell(r.getCliente());

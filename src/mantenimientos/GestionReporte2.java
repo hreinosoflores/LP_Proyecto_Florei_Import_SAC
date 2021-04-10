@@ -6,14 +6,14 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 
 import interfaces.Reporte2Interface;
-import modelos.Reporte2;
+import modelos.ReporteComprobante;
 import utils.MySQLConexion;
 
 public class GestionReporte2 implements Reporte2Interface {
 
 	@Override
-	public ArrayList<Reporte2> listado(String tipo) {
-		ArrayList<Reporte2> lista = new ArrayList<Reporte2>();
+	public ArrayList<ReporteComprobante> listado(String tipo) {
+		ArrayList<ReporteComprobante> lista = new ArrayList<ReporteComprobante>();
 		ResultSet rs = null;
 		Connection con = null;
 		PreparedStatement pst = null;
@@ -27,7 +27,7 @@ public class GestionReporte2 implements Reporte2Interface {
 
 			while (rs.next()) {
 
-				Reporte2 u = new Reporte2();
+				ReporteComprobante u = new ReporteComprobante();
 				u.setCod_cli(rs.getInt(1));
 				u.setNom_cli(rs.getString(2));
 				u.setApe_cli(rs.getString(3));
@@ -56,8 +56,8 @@ public class GestionReporte2 implements Reporte2Interface {
 	}
 
 	@Override
-	public ArrayList<Reporte2> listado() {
-		ArrayList<Reporte2> lista = new ArrayList<Reporte2>();
+	public ArrayList<ReporteComprobante> listado() {
+		ArrayList<ReporteComprobante> lista = new ArrayList<ReporteComprobante>();
 		ResultSet rs = null;
 		Connection con = null;
 		PreparedStatement pst = null;
@@ -70,7 +70,7 @@ public class GestionReporte2 implements Reporte2Interface {
 
 			while (rs.next()) {
 
-				Reporte2 u = new Reporte2();
+				ReporteComprobante u = new ReporteComprobante();
 				u.setCod_cli(rs.getInt(1));
 				u.setTip_doc(rs.getString(4));
 

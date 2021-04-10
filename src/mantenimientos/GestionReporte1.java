@@ -9,14 +9,14 @@ import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
 import interfaces.Reporte1Interface;
-import modelos.Reporte1;
+import modelos.ReporteProducto;
 import utils.MySQLConexion;
 
 public class GestionReporte1 implements Reporte1Interface {
 
 	@Override
-	public ArrayList<Reporte1> listado(String tipo, String fec_ini, String fec_fin) {
-		ArrayList<Reporte1> lista = new ArrayList<>();
+	public ArrayList<ReporteProducto> listado(String tipo, String fec_ini, String fec_fin) {
+		ArrayList<ReporteProducto> lista = new ArrayList<>();
 		ResultSet rs = null;
 		Connection con = null;
 		PreparedStatement pst = null;
@@ -28,7 +28,7 @@ public class GestionReporte1 implements Reporte1Interface {
 			pst.setString(3, fec_fin);
 			rs = pst.executeQuery();
 			while (rs.next()) {
-				Reporte1 r = new Reporte1();
+				ReporteProducto r = new ReporteProducto();
 				r.setCodigo(rs.getInt(1));
 				r.setRegistro(rs.getString(2));
 				r.setCliente(rs.getString(3));

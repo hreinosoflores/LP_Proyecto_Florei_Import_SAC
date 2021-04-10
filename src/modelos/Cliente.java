@@ -1,7 +1,7 @@
 package modelos;
 
 public class Cliente {
-	private int cod_cli;
+	private int cod_cli, usu_creador_cli;
 	private String nom_cli, ape_cli, tip_doc, num_doc, ruc_cli, direc_cli, telef_cli, email_cli;
 
 	public int getCod_cli() {
@@ -10,6 +10,14 @@ public class Cliente {
 
 	public void setCod_cli(int cod_cli) {
 		this.cod_cli = cod_cli;
+	}
+
+	public int getUsu_creador_cli() {
+		return usu_creador_cli;
+	}
+
+	public void setUsu_creador_cli(int usu_creador_cli) {
+		this.usu_creador_cli = usu_creador_cli;
 	}
 
 	public String getNom_cli() {
@@ -86,6 +94,23 @@ public class Cliente {
 			return "CLI0" + codigo;
 		else
 			return "CLI" + codigo;
+	}
+
+	public Cliente(int cod_cli, int usu_creador_cli, String nom_cli, String ape_cli, String tip_doc, String num_doc,
+			String ruc_cli, String direc_cli, String telef_cli, String email_cli) {
+		this.cod_cli = cod_cli;
+		this.usu_creador_cli = usu_creador_cli;
+		this.nom_cli = nom_cli;
+		this.ape_cli = ape_cli;
+		this.tip_doc = tip_doc;
+		this.num_doc = num_doc;
+		this.ruc_cli = ruc_cli;
+		this.direc_cli = direc_cli;
+		this.telef_cli = telef_cli;
+		this.email_cli = email_cli;
+	}
+
+	public Cliente() {
 	}
 
 }

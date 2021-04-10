@@ -1,16 +1,23 @@
 package modelos;
 
 public class Transportista {
-	private int cod_trans;
+	private int cod_trans, usu_creador_trans;
 	private String nom_trans, ape_trans, direc_trans, telf_trans, ruc_trans, num_lic;
 
-	// Metodos Set y Get
 	public int getCod_trans() {
 		return cod_trans;
 	}
 
 	public void setCod_trans(int cod_trans) {
 		this.cod_trans = cod_trans;
+	}
+
+	public int getUsu_creador_trans() {
+		return usu_creador_trans;
+	}
+
+	public void setUsu_creador_trans(int usu_creador_trans) {
+		this.usu_creador_trans = usu_creador_trans;
 	}
 
 	public String getNom_trans() {
@@ -71,6 +78,21 @@ public class Transportista {
 			return "TR0" + codigo;
 		else
 			return "TR" + codigo;
+	}
+
+	public Transportista(int cod_trans, int usu_creador_trans, String nom_trans, String ape_trans, String direc_trans,
+			String telf_trans, String ruc_trans, String num_lic) {
+		this.cod_trans = cod_trans;
+		this.usu_creador_trans = usu_creador_trans;
+		this.nom_trans = nom_trans;
+		this.ape_trans = ape_trans;
+		this.direc_trans = direc_trans;
+		this.telf_trans = telf_trans;
+		this.ruc_trans = ruc_trans;
+		this.num_lic = num_lic;
+	}
+
+	public Transportista() {
 	}
 
 }
