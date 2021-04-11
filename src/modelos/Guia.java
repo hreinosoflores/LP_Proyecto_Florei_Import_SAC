@@ -1,10 +1,10 @@
 package modelos;
 
-import java.sql.Date;
+import java.sql.Timestamp;
 
 public class Guia {
 	private int num_gui, cod_cli, cod_trans, cod_emp, usu_creador_gui;
-	private Date fec_guia, fec_trasl;
+	private Timestamp fec_guia, fec_trasl;
 	private String direc_part, direc_lleg, motiv_trasl;
 
 	public int getNum_gui() {
@@ -47,19 +47,19 @@ public class Guia {
 		this.usu_creador_gui = usu_creador_gui;
 	}
 
-	public Date getFec_guia() {
+	public Timestamp getFec_guia() {
 		return fec_guia;
 	}
 
-	public void setFec_guia(Date fec_guia) {
+	public void setFec_guia(Timestamp fec_guia) {
 		this.fec_guia = fec_guia;
 	}
 
-	public Date getFec_trasl() {
+	public Timestamp getFec_trasl() {
 		return fec_trasl;
 	}
 
-	public void setFec_trasl(Date fec_trasl) {
+	public void setFec_trasl(Timestamp fec_trasl) {
 		this.fec_trasl = fec_trasl;
 	}
 
@@ -99,8 +99,8 @@ public class Guia {
 			return "N" + codigo;
 	}
 
-	public Guia(int num_gui, int cod_cli, int cod_trans, int cod_emp, int usu_creador_gui, Date fec_guia,
-			Date fec_trasl, String direc_part, String direc_lleg, String motiv_trasl) {
+	public Guia(int num_gui, int cod_cli, int cod_trans, int cod_emp, int usu_creador_gui, Timestamp fec_guia,
+			Timestamp fec_trasl, String direc_part, String direc_lleg, String motiv_trasl) {
 		this.num_gui = num_gui;
 		this.cod_cli = cod_cli;
 		this.cod_trans = cod_trans;

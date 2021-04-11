@@ -117,7 +117,6 @@ public class FrmComprobantePago extends JInternalFrame {
 				registrar();
 				limpiar();
 				listar_comprobantes();
-				listar_clientes();
 			}
 		});
 		btnRegistrar.setFont(new Font("Tahoma", Font.BOLD, 12));
@@ -131,7 +130,6 @@ public class FrmComprobantePago extends JInternalFrame {
 				modificar();
 				limpiar();
 				listar_comprobantes();
-				listar_clientes();
 			}
 		});
 		btnModificar.setFont(new Font("Tahoma", Font.BOLD, 12));
@@ -145,7 +143,6 @@ public class FrmComprobantePago extends JInternalFrame {
 				eliminar();
 				limpiar();
 				listar_comprobantes();
-				listar_clientes();
 			}
 		});
 		btnEliminar.setFont(new Font("Tahoma", Font.BOLD, 12));
@@ -206,7 +203,6 @@ public class FrmComprobantePago extends JInternalFrame {
 		contentPane.add(cboLugar);
 
 		listar_comprobantes();
-		listar_clientes();
 	}
 
 	private int anchoColumna(int porcentaje) {

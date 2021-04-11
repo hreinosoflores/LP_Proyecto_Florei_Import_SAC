@@ -6,8 +6,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
@@ -26,8 +29,15 @@ import javax.swing.table.TableColumnModel;
 
 import com.toedter.calendar.JDateChooser;
 
+import mantenimientos.GestionCliente;
+import mantenimientos.GestionEmpresa;
 import mantenimientos.GestionGuia;
+import mantenimientos.GestionTransportista;
+import modelos.Cliente;
+import modelos.Empresa;
+
 import modelos.Guia;
+import modelos.Transportista;
 
 public class FrmGuia extends JInternalFrame {
 
@@ -38,23 +48,30 @@ public class FrmGuia extends JInternalFrame {
 	private JPanel contentPane;
 	private JTextField txtNumero;
 	private JTextField txtPartida;
-	private JLabel lblNewLabel_1;
-	private JLabel lblNewLabel_2;
-	private JTextField txtCliente;
-	private JLabel lblCdigoTransportista;
-	private JTextField txtTransportista;
-	private JLabel lblCdigoEmpresa;
-	private JTextField txtEmpresa;
-	private JLabel lblNewLabel_3;
 	private JTextField txtLlegada;
-	private JTextField txtPeso;
+	private JLabel lblCodigoEmpresa;
+	private JLabel lblFechaTrasla;
+	private JLabel lblNumero;
+	private JLabel lblDireccionPartida;
+	private JLabel lblDireccionLlegada;
+	private JLabel lblHoraTrasla;
+	private JLabel lblMotivo;
+	private JLabel lblCliente;
+	private JLabel lblCodigoTransportista;
 	private JScrollPane scrollPane;
 	private DefaultTableModel modelo;
 	private JTable tblGuia;
-	private JDateChooser txtFechaGuia;
 	private JDateChooser txtFechaTrasla;
-	String aviso1 = "Ingrese el valor numerico del codigo. Ejm: N0025 valor numerico->25";
-	private JComboBox cboMotivo;
+	private JComboBox<String> cboMotivo;
+	private JComboBox<String> cboHoras;
+	private JComboBox<String> cboMinutos;
+	private JComboBox<String> cboCliente;
+	private JComboBox<String> cboTransportista;
+	private JComboBox<String> cboEmpresa;
+	private JButton btnLimpiar;
+	private JButton btnRegistrar;
+	private JButton btnModificar;
+	private JButton btnEliminar;
 
 	/**
 	 * Launch the application.
@@ -81,122 +98,90 @@ public class FrmGuia extends JInternalFrame {
 		setIconifiable(true);
 		setClosable(true);
 		setTitle("Guia");
-		setBounds(100, 100, 804, 572);
+		setBounds(100, 100, 1000, 600);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
-		JLabel lblNewLabel = new JLabel("N\u00FAmero");
-		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblNewLabel.setBounds(10, 16, 105, 14);
-		contentPane.add(lblNewLabel);
+		lblNumero = new JLabel("N\u00FAmero");
+		lblNumero.setFont(new Font("Tahoma", Font.BOLD, 14));
+		lblNumero.setBounds(10, 16, 105, 14);
+		contentPane.add(lblNumero);
 
 		txtNumero = new JTextField();
+		txtNumero.setEditable(false);
 		txtNumero.setFont(new Font("Tahoma", Font.BOLD, 10));
 		txtNumero.setBounds(165, 10, 101, 20);
 		contentPane.add(txtNumero);
 		txtNumero.setColumns(10);
 
-		JLabel lblFechaGuia = new JLabel("Fecha guia");
-		lblFechaGuia.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblFechaGuia.setBounds(10, 47, 95, 14);
-		contentPane.add(lblFechaGuia);
-
-		JLabel lblDireccinPartida = new JLabel("Direcci\u00F3n partida");
-		lblDireccinPartida.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblDireccinPartida.setBounds(10, 78, 129, 14);
-		contentPane.add(lblDireccinPartida);
+		lblDireccionPartida = new JLabel("Direcci\u00F3n partida");
+		lblDireccionPartida.setFont(new Font("Tahoma", Font.BOLD, 14));
+		lblDireccionPartida.setBounds(10, 78, 129, 14);
+		contentPane.add(lblDireccionPartida);
 
 		txtPartida = new JTextField();
 		txtPartida.setFont(new Font("Tahoma", Font.BOLD, 10));
-		txtPartida.setBounds(165, 72, 145, 20);
+		txtPartida.setBounds(165, 72, 565, 20);
 		contentPane.add(txtPartida);
 		txtPartida.setColumns(10);
 
-		lblNewLabel_1 = new JLabel("Motivo traslado");
-		lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblNewLabel_1.setBounds(10, 109, 129, 14);
-		contentPane.add(lblNewLabel_1);
+		lblMotivo = new JLabel("Motivo traslado");
+		lblMotivo.setFont(new Font("Tahoma", Font.BOLD, 14));
+		lblMotivo.setBounds(389, 181, 129, 14);
+		contentPane.add(lblMotivo);
 
-		lblNewLabel_2 = new JLabel("C\u00F3digo cliente");
-		lblNewLabel_2.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblNewLabel_2.setBounds(10, 140, 129, 14);
-		contentPane.add(lblNewLabel_2);
+		lblCliente = new JLabel("Cliente destinatario");
+		lblCliente.setFont(new Font("Tahoma", Font.BOLD, 14));
+		lblCliente.setBounds(389, 149, 145, 14);
+		contentPane.add(lblCliente);
 
-		txtCliente = new JTextField();
-		txtCliente.setFont(new Font("Tahoma", Font.BOLD, 10));
-		txtCliente.setColumns(10);
-		txtCliente.setBounds(165, 134, 101, 20);
-		contentPane.add(txtCliente);
+		lblCodigoTransportista = new JLabel("Transportista");
+		lblCodigoTransportista.setFont(new Font("Tahoma", Font.BOLD, 14));
+		lblCodigoTransportista.setBounds(10, 149, 159, 14);
+		contentPane.add(lblCodigoTransportista);
 
-		lblCdigoTransportista = new JLabel("C\u00F3digo transportista");
-		lblCdigoTransportista.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblCdigoTransportista.setBounds(10, 177, 159, 14);
-		contentPane.add(lblCdigoTransportista);
+		lblCodigoEmpresa = new JLabel("Empresa remitente");
+		lblCodigoEmpresa.setFont(new Font("Tahoma", Font.BOLD, 14));
+		lblCodigoEmpresa.setBounds(10, 181, 159, 14);
+		contentPane.add(lblCodigoEmpresa);
 
-		txtTransportista = new JTextField();
-		txtTransportista.setFont(new Font("Tahoma", Font.BOLD, 10));
-		txtTransportista.setColumns(10);
-		txtTransportista.setBounds(165, 171, 101, 20);
-		contentPane.add(txtTransportista);
+		lblFechaTrasla = new JLabel("Fecha traslado");
+		lblFechaTrasla.setFont(new Font("Tahoma", Font.BOLD, 14));
+		lblFechaTrasla.setBounds(10, 41, 113, 14);
+		contentPane.add(lblFechaTrasla);
 
-		lblCdigoEmpresa = new JLabel("C\u00F3digo empresa");
-		lblCdigoEmpresa.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblCdigoEmpresa.setBounds(10, 208, 129, 14);
-		contentPane.add(lblCdigoEmpresa);
-
-		txtEmpresa = new JTextField();
-		txtEmpresa.setFont(new Font("Tahoma", Font.BOLD, 10));
-		txtEmpresa.setColumns(10);
-		txtEmpresa.setBounds(165, 202, 101, 20);
-		contentPane.add(txtEmpresa);
-
-		lblNewLabel_3 = new JLabel("Fecha traslado");
-		lblNewLabel_3.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblNewLabel_3.setBounds(349, 47, 113, 14);
-		contentPane.add(lblNewLabel_3);
-
-		JLabel lblNewLabel_4 = new JLabel("Direccion llegada");
-		lblNewLabel_4.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblNewLabel_4.setBounds(349, 78, 119, 14);
-		contentPane.add(lblNewLabel_4);
+		lblDireccionLlegada = new JLabel("Direccion llegada");
+		lblDireccionLlegada.setFont(new Font("Tahoma", Font.BOLD, 14));
+		lblDireccionLlegada.setBounds(10, 109, 119, 14);
+		contentPane.add(lblDireccionLlegada);
 
 		txtLlegada = new JTextField();
 		txtLlegada.setFont(new Font("Tahoma", Font.BOLD, 10));
-		txtLlegada.setBounds(475, 72, 139, 20);
+		txtLlegada.setBounds(165, 103, 565, 20);
 		contentPane.add(txtLlegada);
 		txtLlegada.setColumns(10);
 
-		JLabel lblPesoTotal = new JLabel("Peso total");
-		lblPesoTotal.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblPesoTotal.setBounds(349, 109, 73, 14);
-		contentPane.add(lblPesoTotal);
-
-		txtPeso = new JTextField();
-		txtPeso.setFont(new Font("Tahoma", Font.BOLD, 10));
-		txtPeso.setBounds(475, 103, 110, 20);
-		contentPane.add(txtPeso);
-		txtPeso.setColumns(10);
-
 		scrollPane = new JScrollPane();
-		scrollPane.setBounds(10, 296, 768, 235);
+		scrollPane.setBounds(10, 296, 964, 235);
 		contentPane.add(scrollPane);
 
 		tblGuia = new JTable();
 		tblGuia.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				rellenarformulario();
+				rellenar();
 			}
 		});
 		scrollPane.setViewportView(tblGuia);
 
-		JButton btnRegistrar = new JButton("Registrar");
+		btnRegistrar = new JButton("Registrar");
 		btnRegistrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				registrar();
-				listadoClientes();
+				limpiar();
+				listar_guias();
 			}
 		});
 		btnRegistrar.setFont(new Font("Tahoma", Font.BOLD, 12));
@@ -204,11 +189,12 @@ public class FrmGuia extends JInternalFrame {
 		btnRegistrar.setBounds(10, 247, 145, 38);
 		contentPane.add(btnRegistrar);
 
-		JButton btnModificar = new JButton("Modificar");
+		btnModificar = new JButton("Modificar");
 		btnModificar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				modificar();
-				listadoClientes();
+				limpiar();
+				listar_guias();
 			}
 		});
 		btnModificar.setFont(new Font("Tahoma", Font.BOLD, 12));
@@ -216,11 +202,12 @@ public class FrmGuia extends JInternalFrame {
 		btnModificar.setBounds(165, 247, 145, 38);
 		contentPane.add(btnModificar);
 
-		JButton btnEliminar = new JButton("Eliminar");
+		btnEliminar = new JButton("Eliminar");
 		btnEliminar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				eliminardatos();
-				listadoClientes();
+				limpiar();
+				listar_guias();
 			}
 		});
 		btnEliminar.setFont(new Font("Tahoma", Font.BOLD, 12));
@@ -228,45 +215,83 @@ public class FrmGuia extends JInternalFrame {
 		btnEliminar.setBounds(320, 247, 145, 38);
 		contentPane.add(btnEliminar);
 
-		txtFechaGuia = new JDateChooser();
-		txtFechaGuia.setBounds(165, 41, 95, 20);
-		contentPane.add(txtFechaGuia);
-
 		modelo = new DefaultTableModel();
 		modelo.addColumn("Número");
-		modelo.addColumn("Fecha Guia");
+		modelo.addColumn("Fecha Guía");
 		modelo.addColumn("Fecha Traslado");
-		modelo.addColumn("Dir Partida");
-		modelo.addColumn("Dir Llegada");
+		modelo.addColumn("Dirección Partida");
+		modelo.addColumn("Dirección Llegada");
 		modelo.addColumn("Motivo Traslado");
-		modelo.addColumn("Peso Total");
 		modelo.addColumn("Cliente");
 		modelo.addColumn("Transportista");
 		modelo.addColumn("Empresa");
+		modelo.addColumn("Creador Guía");
 		tblGuia.setModel(modelo);
 
 		txtFechaTrasla = new JDateChooser();
-		txtFechaTrasla.setBounds(472, 41, 95, 20);
+		txtFechaTrasla.setBounds(165, 41, 181, 20);
+		txtFechaTrasla.setFont(new Font("Tahoma", Font.BOLD, 10));
 		contentPane.add(txtFechaTrasla);
 
-		JButton btnInfo = new JButton("");
-		btnInfo.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				JOptionPane.showMessageDialog(null, "Indique si la venta es al por mayor o al por menor",
-						"MOTIVO DE TRASLADO", 1);
-			}
-		});
-		btnInfo.setIcon(new ImageIcon(FrmGuia.class.getResource("/iconos/info.png")));
-		btnInfo.setBounds(288, 103, 35, 20);
-		contentPane.add(btnInfo);
-
-		cboMotivo = new JComboBox();
-		cboMotivo.setModel(new DefaultComboBoxModel(new String[] { "Seleccione", "Vmayor", "Vmenor" }));
-		cboMotivo.setBounds(165, 103, 101, 20);
+		cboMotivo = new JComboBox<String>();
+		cboMotivo.setModel(new DefaultComboBoxModel<String>(
+				new String[] { "Seleccione", "Venta al por mayor", "Venta al por menor" }));
+		cboMotivo.setFont(new Font("Tahoma", Font.BOLD, 10));
+		cboMotivo.setBounds(539, 180, 191, 20);
 		contentPane.add(cboMotivo);
 
+		lblHoraTrasla = new JLabel("Hora traslado");
+		lblHoraTrasla.setFont(new Font("Tahoma", Font.BOLD, 14));
+		lblHoraTrasla.setBounds(389, 41, 129, 14);
+		contentPane.add(lblHoraTrasla);
+
+		cboHoras = new JComboBox<String>();
+		cboHoras.setModel(
+				new DefaultComboBoxModel<String>(new String[] { "00", "01", "02", "03", "04", "05", "06", "07", "08",
+						"09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23" }));
+		cboHoras.setFont(new Font("Tahoma", Font.BOLD, 10));
+		cboHoras.setBounds(501, 40, 93, 20);
+		contentPane.add(cboHoras);
+
+		cboMinutos = new JComboBox<String>();
+		cboMinutos.setModel(new DefaultComboBoxModel<String>(
+				new String[] { "00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14",
+						"15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30",
+						"31", "32", "33", "34", "35", "36", "37", "38", "39", "40", "41", "42", "43", "44", "45", "46",
+						"47", "48", "49", "50", "51", "52", "53", "54", "55", "56", "57", "58", "59" }));
+		cboMinutos.setFont(new Font("Tahoma", Font.BOLD, 10));
+		cboMinutos.setBounds(637, 40, 93, 20);
+		contentPane.add(cboMinutos);
+
+		cboCliente = new JComboBox<String>();
+		cboCliente.setModel(new DefaultComboBoxModel<String>(listar_clientes().toArray(new String[0])));
+		cboCliente.setFont(new Font("Tahoma", Font.BOLD, 10));
+		cboCliente.setBounds(539, 148, 191, 20);
+		contentPane.add(cboCliente);
+
+		cboTransportista = new JComboBox<String>();
+		cboTransportista.setModel(new DefaultComboBoxModel<String>(listar_transportistas().toArray(new String[0])));
+		cboTransportista.setFont(new Font("Tahoma", Font.BOLD, 10));
+		cboTransportista.setBounds(165, 147, 181, 20);
+		contentPane.add(cboTransportista);
+
+		cboEmpresa = new JComboBox<String>();
+		cboEmpresa.setModel(new DefaultComboBoxModel<String>(listar_empresas().toArray(new String[0])));
+		cboEmpresa.setFont(new Font("Tahoma", Font.BOLD, 10));
+		cboEmpresa.setBounds(165, 179, 181, 20);
+		contentPane.add(cboEmpresa);
+
+		btnLimpiar = new JButton("LIMPIAR DATOS");
+		btnLimpiar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				limpiar();
+			}
+		});
+		btnLimpiar.setBounds(539, 248, 191, 39);
+		contentPane.add(btnLimpiar);
+
 		ajustarAnchoColumnas();
-		listadoClientes();
+		listar_guias();
 	}
 
 	private int anchoColumna(int porcentaje) {
@@ -288,45 +313,82 @@ public class FrmGuia extends JInternalFrame {
 		tcm.getColumn(4).setPreferredWidth(anchoColumna(8));
 	}
 
-	void listadoClientes() {
+	List<String> listar_clientes() {
+		List<String> cboItems = new ArrayList<String>();
+		cboItems.add("Seleccione");
+		GestionCliente gc = new GestionCliente();
+		List<Cliente> lista = gc.listado();
+		for (Cliente cliente : lista) {
+			cboItems.add(cliente.getNom_cli() + " " + cliente.getApe_cli());
+		}
+		return cboItems;
+	}
+
+	List<String> listar_transportistas() {
+		List<String> cboItems = new ArrayList<String>();
+		cboItems.add("Seleccione");
+		GestionTransportista gt = new GestionTransportista();
+		List<Transportista> lista = gt.listado();
+		for (Transportista transportista : lista) {
+			cboItems.add(transportista.getNom_trans() + " " + transportista.getApe_trans());
+		}
+		return cboItems;
+	}
+
+	List<String> listar_empresas() {
+		List<String> cboItems = new ArrayList<String>();
+		cboItems.add("Seleccione");
+		GestionEmpresa ge = new GestionEmpresa();
+		List<Empresa> lista = ge.listado();
+		for (Empresa empresa : lista) {
+			cboItems.add(empresa.getRaz_soc_emp());
+		}
+		return cboItems;
+	}
+
+	void listar_guias() {
 		GestionGuia gg = new GestionGuia();
 		ArrayList<Guia> lista = gg.listado();
 		modelo.setRowCount(0);
 		for (Guia g : lista) {
-			Object[] fila = { g.codigochar(), g.getFec_guia(), g.getFec_trasl(), g.getDirec_part(), g.getDirec_lleg(),
-					g.getMotiv_trasl(), g.getPes_tot(), g.getCod_cli(), g.getCod_trans(), g.getCod_emp()
-
+			Object[] fila = { g.getNum_gui(), g.getFec_guia(), g.getFec_trasl(), g.getDirec_part(), g.getDirec_lleg(),
+					motivo_formateado(g.getMotiv_trasl()), g.getCod_cli(), g.getCod_trans(), g.getCod_emp(),
+					g.getUsu_creador_gui()
 			};
 			modelo.addRow(fila);
 		}
 
 	}
 
-	void registrar() {
-		int cod_cli, cod_trans, cod_emp;
-		String fec_guia, fec_trasl, direc_part, direc_lleg, motiv_trasl;
-		double pes_tot;
+	String motivo_formateado(String mot) {
+		if (mot.equals("vmayor"))
+			return "Venta al por mayor";
+		else
+			return "Venta al por menor";
+	}
 
-		fec_guia = leerFecGuia();
+	void registrar() {
+		int cod_cli, cod_trans, cod_emp, usu_creador_gui;
+		String fec_trasl, direc_part, direc_lleg, motiv_trasl;
+
 		fec_trasl = leerFecTrasl();
 		direc_part = leerDireccionPartida();
 		direc_lleg = leerDireccionLlegada();
 		motiv_trasl = leerModo();
-		pes_tot = leerPeso();
 		cod_cli = leerCodigoCli();
 		cod_trans = leerCodigoTra();
 		cod_emp = leerCodigoEmp();
+		usu_creador_gui = 1;// obtener de la sesion tras el logueo
 
 		Guia g = new Guia();
-		g.setFec_guia(fec_guia);
-		g.setFec_trasl(fec_trasl);
+		g.setFec_trasl(Timestamp.valueOf(fec_trasl));
 		g.setDirec_part(direc_part);
 		g.setDirec_lleg(direc_lleg);
 		g.setMotiv_trasl(motiv_trasl);
-		g.setPes_tot(pes_tot);
 		g.setCod_cli(cod_cli);
 		g.setCod_trans(cod_trans);
 		g.setCod_emp(cod_emp);
+		g.setUsu_creador_gui(usu_creador_gui);
 
 		GestionGuia gu = new GestionGuia();
 		int ok = gu.registrar(g);
@@ -339,100 +401,76 @@ public class FrmGuia extends JInternalFrame {
 
 	void modificar() {
 		int num_gui, cod_cli, cod_trans, cod_emp;
-		String fec_guia, fec_trasl, direc_part, direc_lleg, motiv_trasl;
-		double pes_tot;
+		String fec_trasl, direc_part, direc_lleg, motiv_trasl;
+
 		num_gui = leerNumGuia();
-		fec_guia = leerFecGuia();
 		fec_trasl = leerFecTrasl();
 		direc_part = leerDireccionPartida();
 		direc_lleg = leerDireccionLlegada();
 		motiv_trasl = leerModo();
-		pes_tot = leerPeso();
 		cod_cli = leerCodigoCli();
 		cod_trans = leerCodigoTra();
 		cod_emp = leerCodigoEmp();
 
 		Guia g = new Guia();
 		g.setNum_gui(num_gui);
-		g.setFec_guia(fec_guia);
-		g.setFec_trasl(fec_trasl);
+		g.setFec_trasl(Timestamp.valueOf(fec_trasl));
 		g.setDirec_part(direc_part);
 		g.setDirec_lleg(direc_lleg);
 		g.setMotiv_trasl(motiv_trasl);
-		g.setPes_tot(pes_tot);
 		g.setCod_cli(cod_cli);
 		g.setCod_trans(cod_trans);
 		g.setCod_emp(cod_emp);
 
-		if (num_gui >= 1) {
-			GestionGuia gg = new GestionGuia();
-			int ok = gg.actualizar(g);
-			if (ok == 0) {
-				JOptionPane.showMessageDialog(null, FrmPrincipal.aviso5);
-			} else {
-				JOptionPane.showMessageDialog(null, FrmPrincipal.aviso2);
-			}
-
+		GestionGuia gg = new GestionGuia();
+		int ok = gg.actualizar(g);
+		if (ok == 0) {
+			JOptionPane.showMessageDialog(null, FrmPrincipal.aviso5);
 		} else {
-			JOptionPane.showMessageDialog(null, aviso1);
+			JOptionPane.showMessageDialog(null, FrmPrincipal.aviso2);
 		}
+
 	}
 
 	void eliminardatos() {
 		int num_gui = leerNumGuia();
 		Guia g = new Guia();
 		g.setNum_gui(num_gui);
-		if (num_gui >= 1) {
-			GestionGuia gu = new GestionGuia();
-			int ok = gu.eliminar(g);
-			if (ok == 0) {
-				JOptionPane.showMessageDialog(null, FrmPrincipal.aviso6);
-			} else {
-				JOptionPane.showMessageDialog(null, FrmPrincipal.aviso3);
-			}
-
+		GestionGuia gu = new GestionGuia();
+		int ok = gu.eliminar(g);
+		if (ok == 0) {
+			JOptionPane.showMessageDialog(null, FrmPrincipal.aviso6);
 		} else {
-			JOptionPane.showMessageDialog(null, "Ingrese un codigo");
+			JOptionPane.showMessageDialog(null, FrmPrincipal.aviso3);
 		}
 
 	}
 
 	int leerNumGuia() {
-		int cod = -1;
+		int cod = 0;
 		try {
 			cod = Integer.parseInt(txtNumero.getText().trim());
 		} catch (NumberFormatException e) {
-			JOptionPane.showMessageDialog(null, aviso1);
+			JOptionPane.showMessageDialog(null, "");
 		}
 		return cod;
 
 	}
 
-	String leerFecGuia() {
-		try {
-			String f = null;
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
-			f = sdf.format(txtFechaGuia.getDate());
-			if (f != null)
-				return f;
-		} catch (Exception e) {
-			JOptionPane.showMessageDialog(null, "Ingrese la fecha de registro de la guía");
-		}
-		return null;
-	}
-
 	String leerFecTrasl() {
+		String fecTrasl = null;
 		try {
-			String t = null;
+			String fec, hora, minuto = null;
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+			fec = sdf.format(txtFechaTrasla.getDate());
+			hora = cboHoras.getSelectedItem().toString();
+			minuto = cboMinutos.getSelectedItem().toString();
+			fecTrasl = String.format("%s %s:%s:00", fec, hora, minuto);
 
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
-			t = sdf.format(txtFechaTrasla.getDate());
-			if (t != null)
-				return t;
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null, "Ingrese la fecha de traslado");
 		}
-		return null;
+		return fecTrasl;
 	}
 
 	String leerDireccionPartida() {
@@ -453,69 +491,63 @@ public class FrmGuia extends JInternalFrame {
 		switch (tp) {
 		case 1:
 			return "Vmenor";
-		default:
+		case 2:
 			return "Vmayor";
+		default:
+			return "";
 		}
-	}
-
-	double leerPeso() {
-		double p = -1;
-		try {
-			p = Double.parseDouble(txtPeso.getText().trim());
-		} catch (NumberFormatException e) {
-			JOptionPane.showMessageDialog(null, "Ingrese un valor entero o decimal positivo");
-		}
-		return p;
-
 	}
 
 	int leerCodigoCli() {
-		int c = -1;
-		try {
-			c = Integer.parseInt(txtCliente.getText().trim());
-		} catch (NumberFormatException e) {
-			JOptionPane.showMessageDialog(null,
-					"Ingrese el valor numerico del codigo Cliente. Ejm: CLI0025 valor numerico->25");
-		}
+		int c = 0;
+		c = cboCliente.getSelectedIndex();
 		return c;
 	}
 
 	int leerCodigoTra() {
-		int t = -1;
-		try {
-			t = Integer.parseInt(txtTransportista.getText().trim());
-		} catch (NumberFormatException e) {
-			JOptionPane.showMessageDialog(null,
-					"Ingrese el valor numerico del codigo Transportista. Ejm: TR0025 valor numerico->25");
-		}
-		return t;
-
+		int c = 0;
+		c = cboTransportista.getSelectedIndex();
+		return c;
 	}
 
 	int leerCodigoEmp() {
-		int e = -1;
-		try {
-			e = Integer.parseInt(txtEmpresa.getText().trim());
-		} catch (NumberFormatException e2) {
-			JOptionPane.showMessageDialog(null,
-					"Ingrese el valor numerico del codigo Empresa. Ejm: EMP0025 valor numerico->25");
-		}
-		return e;
+		int c = 0;
+		c = cboEmpresa.getSelectedIndex();
+		return c;
 	}
 
-	void rellenarformulario() {
+	void rellenar() {
+		try {
 
-		int fila = tblGuia.getSelectedRow();
-		txtNumero.setText(tblGuia.getValueAt(fila, 0).toString());
-		txtFechaGuia.setToolTipText(tblGuia.getValueAt(fila, 1).toString());
-		txtFechaTrasla.setToolTipText(tblGuia.getValueAt(fila, 2).toString());
-		txtPartida.setText(tblGuia.getValueAt(fila, 3).toString());
-		txtLlegada.setText(tblGuia.getValueAt(fila, 4).toString());
+			int fila = tblGuia.getSelectedRow();
+			Date fechaTrasla = new SimpleDateFormat("yyyy-MM-dd")
+					.parse(tblGuia.getValueAt(fila, 2).toString().substring(0, 10));
+			txtNumero.setText(tblGuia.getValueAt(fila, 0).toString());
+			txtFechaTrasla.setDate(fechaTrasla);
+			txtPartida.setText(tblGuia.getValueAt(fila, 3).toString());
+			txtLlegada.setText(tblGuia.getValueAt(fila, 4).toString());
+			cboHoras.setSelectedItem(tblGuia.getValueAt(fila, 2).toString().substring(11, 13));
+			cboMinutos.setSelectedItem(tblGuia.getValueAt(fila, 2).toString().substring(14, 16));
+			cboMotivo.setSelectedItem(tblGuia.getValueAt(fila, 5).toString());
+			cboCliente.setSelectedIndex(Integer.parseInt(tblGuia.getValueAt(fila, 6).toString()));
+			cboTransportista.setSelectedIndex(Integer.parseInt(tblGuia.getValueAt(fila, 7).toString()));
+			cboEmpresa.setSelectedIndex(Integer.parseInt(tblGuia.getValueAt(fila, 8).toString()));
+		} catch (Exception e) {
+			// TODO: handle exception
+			JOptionPane.showMessageDialog(null, "Error al setear: " + e.getMessage());
+			e.printStackTrace();
+		}
+
+	}
+
+	void limpiar() {
+		txtNumero.setText("");
+		cboHoras.setSelectedIndex(0);
+		cboMinutos.setSelectedIndex(0);
 		cboMotivo.setSelectedIndex(0);
-		txtPeso.setText(tblGuia.getValueAt(fila, 6).toString());
-		txtCliente.setText(tblGuia.getValueAt(fila, 7).toString());
-		txtTransportista.setText(tblGuia.getValueAt(fila, 8).toString());
-		txtEmpresa.setText(tblGuia.getValueAt(fila, 9).toString());
-
+		cboCliente.setSelectedIndex(0);
+		cboTransportista.setSelectedIndex(0);
+		cboEmpresa.setSelectedIndex(0);
+		txtNumero.requestFocus();
 	}
 }
