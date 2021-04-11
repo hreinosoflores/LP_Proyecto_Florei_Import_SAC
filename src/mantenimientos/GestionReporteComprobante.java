@@ -8,33 +8,33 @@ import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
 
-import interfaces.Reporte1Interface;
-import modelos.ReporteProducto;
+import interfaces.ReporteComprobanteInterface;
+import modelos.ReporteComprobante;
 import utils.MySQLConexion;
 
-public class GestionReporte1 implements Reporte1Interface {
+public class GestionReporteComprobante implements ReporteComprobanteInterface {
 
 	@Override
-	public ArrayList<ReporteProducto> listado(String tipo, String fec_ini, String fec_fin) {
-		ArrayList<ReporteProducto> lista = new ArrayList<>();
+	public ArrayList<ReporteComprobante> listado(String ty, String fec_ini, String fec_fin) {
+		ArrayList<ReporteComprobante> lista = new ArrayList<>();
 		ResultSet rs = null;
 		Connection con = null;
 		PreparedStatement pst = null;
 		try {
 			con = MySQLConexion.getConexion();
 			pst = con.prepareStatement("{call usp_reportarcomprobante(?,?,?)}");
-			pst.setString(1, tipo);
+			pst.setString(1, ty);
 			pst.setString(2, fec_ini);
 			pst.setString(3, fec_fin);
 			rs = pst.executeQuery();
 			while (rs.next()) {
-				ReporteProducto r = new ReporteProducto();
+				ReporteComprobante r = new ReporteComprobante();
 				r.setCodigo(rs.getInt(1));
-				r.setRegistro(rs.getString(2));
-				r.setCliente(rs.getString(3));
-				r.setProducto(rs.getString(4));
-				r.setCant(rs.getInt(5));
-				r.setPago(rs.getDouble(6));
+				r.setTipo(rs.getString(2));
+				r.setFeccomp(rs.getDate(3));
+				r.setFecharegistro(rs.getString(4));
+				r.setCreador(rs.getString(5));
+				r.setCliente(rs.getString(6));
 				lista.add(r);
 			}
 
@@ -51,7 +51,6 @@ public class GestionReporte1 implements Reporte1Interface {
 			}
 		}
 		return lista;
-
 	}
 
 }

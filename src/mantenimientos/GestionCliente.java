@@ -23,7 +23,7 @@ public class GestionCliente implements ClienteInterface {
 			con = MySQLConexion.getConexion();
 			con.setAutoCommit(false);
 			String sql = "insert into cliente_destinatario" + "(nom_cli,ape_cli,tip_doc,num_doc,"
-					+ "ruc_cli,direc_cli,telef_cli,email_cli)" + "values(?,?,?,?,?,?,?,?)";
+					+ "ruc_cli,direc_cli,telef_cli,email_cli,usu_creador_cli)" + "values(?,?,?,?,?,?,?,?,?)";
 			pst = con.prepareStatement(sql);
 			pst.setString(1, c.getNom_cli());
 			pst.setString(2, c.getApe_cli());
@@ -33,17 +33,20 @@ public class GestionCliente implements ClienteInterface {
 			pst.setString(6, c.getDirec_cli());
 			pst.setString(7, c.getTelef_cli());
 			pst.setString(8, c.getEmail_cli());
+			pst.setInt(9, c.getUsu_creador_cli());
 			rs = pst.executeUpdate();
-			
+
 			con.commit();
 		} catch (Exception e) {
-			
-			try {con.rollback();
-			JOptionPane.showMessageDialog(null, "Error en la sentencia: " + e.getMessage());
-			
-			}catch (Exception ex) {
-			JOptionPane.showMessageDialog(null, "Error en el rollback: ");
-		}} finally {
+
+			try {
+				con.rollback();
+				JOptionPane.showMessageDialog(null, "Error en la sentencia: " + e.getMessage());
+
+			} catch (Exception ex) {
+				JOptionPane.showMessageDialog(null, "Error en el rollback: ");
+			}
+		} finally {
 			try {
 				if (pst != null)
 					pst.close();
@@ -64,7 +67,7 @@ public class GestionCliente implements ClienteInterface {
 		PreparedStatement pst = null;
 		try {
 			con = MySQLConexion.getConexion();
-			pst = con.prepareStatement("select*from Cliente_Destinatario");
+			pst = con.prepareStatement("SELECT * FROM florei_import.cliente_destinatario");
 			rs = pst.executeQuery();
 			while (rs.next()) {
 				Cliente c = new Cliente();
@@ -77,6 +80,7 @@ public class GestionCliente implements ClienteInterface {
 				c.setDirec_cli(rs.getString(7));
 				c.setTelef_cli(rs.getString(8));
 				c.setEmail_cli(rs.getString(9));
+				c.setUsu_creador_cli(rs.getInt(10));
 				lista.add(c);
 			}
 

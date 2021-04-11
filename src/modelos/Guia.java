@@ -1,6 +1,6 @@
 package modelos;
 
-import java.util.Date;
+import java.sql.Date;
 
 public class Guia {
 	private int num_gui, cod_cli, cod_trans, cod_emp, usu_creador_gui;

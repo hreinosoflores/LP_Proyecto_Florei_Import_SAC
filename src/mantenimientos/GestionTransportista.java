@@ -22,9 +22,9 @@ public class GestionTransportista implements TransportistaInterface {
 		try {
 			con = MySQLConexion.getConexion();
 			con.setAutoCommit(false);
-			// insert into Transportista
-			// values(cod_trans,nom_trans,ape_trans,direc_trans,telf_trans,ruc_trans,num_lic)
-			String sql = "insert into Transportista values(null,?,?,?,?,?,?)";
+			String sql = "INSERT INTO `florei_import`.`transportista`\r\n" + "(`nom_trans`,\r\n" + "`ape_trans`,\r\n"
+					+ "`direc_trans`,\r\n" + "`telf_trans`,\r\n" + "`ruc_trans`,\r\n" + "`num_lic`,\r\n"
+					+ "`usu_creador_trans`)\r\n" + "VALUES\r\n" + "(?,?,?,?,?,?,?);";
 			pst = con.prepareStatement(sql);
 			pst.setString(1, trans.getNom_trans());
 			pst.setString(2, trans.getApe_trans());
@@ -32,20 +32,22 @@ public class GestionTransportista implements TransportistaInterface {
 			pst.setString(4, trans.getTelf_trans());
 			pst.setString(5, trans.getRuc_trans());
 			pst.setString(6, trans.getNum_lic());
+			pst.setInt(7, trans.getUsu_creador_trans());
 
 			rs = pst.executeUpdate();
 			con.commit();
-			} catch (Exception x) {
-			
+		} catch (Exception x) {
+
 			try {
-				
+
 				con.rollback();
 				JOptionPane.showMessageDialog(null, "Error en la sentencia: " + x.getMessage());
-				
+
 			} catch (Exception ex) {
-				
-				JOptionPane.showMessageDialog(null, "Error en el rollback");}
-			} finally {
+
+				JOptionPane.showMessageDialog(null, "Error en el rollback");
+			}
+		} finally {
 			try {
 				if (pst != null)
 					pst.close();
@@ -80,6 +82,7 @@ public class GestionTransportista implements TransportistaInterface {
 				t.setTelf_trans(rs.getString(5));
 				t.setRuc_trans(rs.getString(6));
 				t.setNum_lic(rs.getString(7));
+				t.setUsu_creador_trans(rs.getInt(8));
 				lista.add(t);
 
 			}
@@ -139,7 +142,6 @@ public class GestionTransportista implements TransportistaInterface {
 			String sql = "update Transportista set nom_trans=?," + "ape_trans=?," + "direc_trans=?," + "telf_trans=?,"
 					+ "ruc_trans=?," + "num_lic=?" + "where cod_trans = ? ";
 			pst = con.prepareStatement(sql);
-			// cod_trans,nom_trans,ape_trans,direc_trans,telf_trans,ruc_trans,num_lic
 			pst.setString(1, trans.getNom_trans());
 			pst.setString(2, trans.getApe_trans());
 			pst.setString(3, trans.getDirec_trans());

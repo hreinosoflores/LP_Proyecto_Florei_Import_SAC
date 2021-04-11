@@ -1,6 +1,6 @@
 package modelos;
 
-import java.util.Date;
+import java.sql.Date;
 
 public class ComprobantePago {
 	private int num_comp, cod_cli, usu_creador_comp;

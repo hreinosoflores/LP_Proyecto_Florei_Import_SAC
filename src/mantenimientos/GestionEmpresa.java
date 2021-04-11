@@ -22,13 +22,9 @@ public class GestionEmpresa implements EmpresaInterface {
 		try {
 			con = MySQLConexion.getConexion();
 			con.setAutoCommit(false);
-			/*
-			 * insert into
-			 * Empresa_Remitente(cod_emp,raz_soc_emp,direc_emp,ruc_emp,email_emp
-			 * ,telefono) values('EMP01','Maestro Perú SAC','Av. Belisario
-			 * Suarez 1080','11123456789','maestro@maestro.com.pe','012568978');
-			 */
-			String sql = "insert into Empresa_Remitente values(null,?,?,?,?,?,?)";
+			String sql = "INSERT INTO `florei_import`.`empresa_remitente`\r\n" + "(`raz_soc_emp`,\r\n"
+					+ "`direc_emp`,\r\n" + "`ruc_emp`,\r\n" + "`email_emp`,\r\n" + "`telefono`,\r\n"
+					+ "`usu_creado_emp`)\r\n" + "VALUES\r\n" + "(?,?,?,?,?,?)";
 			pst = con.prepareStatement(sql);
 
 			pst.setString(1, e.getRaz_soc_emp());
@@ -36,21 +32,21 @@ public class GestionEmpresa implements EmpresaInterface {
 			pst.setString(3, e.getRuc_emp());
 			pst.setString(4, e.getEmail_emp());
 			pst.setString(5, e.getTelefono());
-			pst.setInt(6, e.getCod_cli());
+			pst.setInt(6, e.getUsu_creado_emp());
 			rs = pst.executeUpdate();
-			
+
 			con.commit();
-			} catch (Exception x) {
-			
+		} catch (Exception x) {
+
 			try {
-				
+
 				con.rollback();
 				JOptionPane.showMessageDialog(null, "Error en la sentencia: " + x.getMessage());
-				
+
 			} catch (Exception ex) {
-				
+
 				JOptionPane.showMessageDialog(null, "Error en el rollback");
-				
+
 			}
 		} finally {
 			try {
@@ -74,7 +70,7 @@ public class GestionEmpresa implements EmpresaInterface {
 
 		try {
 			con = MySQLConexion.getConexion();
-			pst = con.prepareStatement("select*from empresa_remitente");
+			pst = con.prepareStatement("select * from empresa_remitente");
 			rs = pst.executeQuery();
 			while (rs.next()) {
 				Empresa e = new Empresa();
@@ -84,7 +80,7 @@ public class GestionEmpresa implements EmpresaInterface {
 				e.setRuc_emp(rs.getString(4));
 				e.setEmail_emp(rs.getString(5));
 				e.setTelefono(rs.getString(6));
-				e.setCod_cli(rs.getInt(7));
+				e.setUsu_creado_emp(rs.getInt(7));
 				lista.add(e);
 
 			}
@@ -138,14 +134,13 @@ public class GestionEmpresa implements EmpresaInterface {
 		try {
 			con = MySQLConexion.getConexion();
 			pst = con.prepareStatement("update empresa_remitente " + "set raz_soc_emp=?," + "direc_emp=?,"
-					+ "ruc_emp=?," + "email_emp=? ," + "telefono=?," + "cod_cli=? where cod_emp=?");
+					+ "ruc_emp=?," + "email_emp=? ," + "telefono=?," + " where cod_emp=?");
 			pst.setString(1, e.getRaz_soc_emp());
 			pst.setString(2, e.getDirec_emp());
 			pst.setString(3, e.getRuc_emp());
 			pst.setString(4, e.getEmail_emp());
 			pst.setString(5, e.getTelefono());
-			pst.setInt(6, e.getCod_cli());
-			pst.setInt(7, e.getCod_cli());
+			pst.setInt(6, e.getCod_emp());
 
 			rs = pst.executeUpdate();
 

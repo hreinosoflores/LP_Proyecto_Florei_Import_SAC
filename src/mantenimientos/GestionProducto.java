@@ -32,6 +32,8 @@ public class GestionProducto implements ProductoInterface {
 				p.setUni_med_prod(rs.getString(4));
 				p.setStk_prod(rs.getInt(5));
 				p.setPre_unit(rs.getDouble(6));
+				p.setPes_unit(rs.getDouble(7));
+				p.setUsu_creador_prod(rs.getInt(8));
 				lista.add(p);
 			}
 
@@ -59,29 +61,32 @@ public class GestionProducto implements ProductoInterface {
 
 		try {
 			con = MySQLConexion.getConexion();
-			// "insert into Producto values('PRO05','Panel LED 60x60cm 41W
-			// 3400LM 35W',250,'Cajas','Lightech'"
-			String sql = "insert into producto(marca,desc_prod,uni_med_prod," + "stk_prod,pre_unit) values(?,?,?,?,?)";
+			String sql = "INSERT INTO `florei_import`.`producto`\r\n" + "(`marca`,\r\n" + "`desc_prod`,\r\n"
+					+ "`uni_med_prod`,\r\n" + "`stk_prod`,\r\n" + "`pre_unit`,\r\n" + "`pes_unit`,\r\n"
+					+ "`usu_creador_prod`)\r\n" + "VALUES\r\n" + "(?,?,?,?,?,?,?);";
 			pst = con.prepareStatement(sql);
 			pst.setString(1, p.getMarca());
 			pst.setString(2, p.getDesc_prod());
 			pst.setString(3, p.getUni_med_prod());
 			pst.setInt(4, p.getStk_prod());
 			pst.setDouble(5, p.getPre_unit());
+			pst.setDouble(6, p.getPes_unit());
+			pst.setInt(7, p.getUsu_creador_prod());
 			rs = pst.executeUpdate();
 
 			con.commit();
 		} catch (Exception x) {
-		
-		try {
-			
-			con.rollback();
-			JOptionPane.showMessageDialog(null, "Error en la sentencia: " + x.getMessage());
-			
-		} catch (Exception ex) {
-			
-			JOptionPane.showMessageDialog(null, "Error en el rollback");}
-		}finally {
+
+			try {
+
+				con.rollback();
+				JOptionPane.showMessageDialog(null, "Error en la sentencia: " + x.getMessage());
+
+			} catch (Exception ex) {
+
+				JOptionPane.showMessageDialog(null, "Error en el rollback");
+			}
+		} finally {
 			try {
 				if (pst != null)
 					pst.close();
@@ -129,15 +134,16 @@ public class GestionProducto implements ProductoInterface {
 		PreparedStatement pst = null;
 		try {
 			con = MySQLConexion.getConexion();
-			/* desc_prod,stk_prod,uni_med_prod,raz_soc_prod */
-			String sql = "update Producto set marca = ?," + "desc_prod = ?," + "uni_med_prod = ?, " + "stk_prod = ?,"
-					+ "pre_unit = ? where cod_prod = ?";
+			String sql = "UPDATE `florei_import`.`producto`\r\n" + "SET\r\n" + "`marca` = ?,\r\n"
+					+ "`desc_prod` = ?,\r\n" + "`uni_med_prod` = ?,\r\n" + "`stk_prod` = ?,\r\n" + "`pre_unit` = ?,\r\n"
+					+ "`pes_unit` = ?\r\n" + "WHERE `cod_prod` = ?;";
 			pst = con.prepareStatement(sql);
 			pst.setString(1, p.getMarca());
 			pst.setString(2, p.getDesc_prod());
 			pst.setString(3, p.getUni_med_prod());
 			pst.setInt(4, p.getStk_prod());
 			pst.setDouble(5, p.getPre_unit());
+			pst.setDouble(5, p.getPes_unit());
 			pst.setInt(6, p.getCod_prod());
 			rs = pst.executeUpdate();
 

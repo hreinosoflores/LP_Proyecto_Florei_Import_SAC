@@ -26,11 +26,12 @@ public class GestionUsuario implements UsuarioInterface {
 			rs = pst.executeQuery();
 			while (rs.next()) {
 				u = new Usuario();
-				u.setCodi(rs.getInt(1));
+				u.setCodus(rs.getInt(1));
 				u.setNom_usua(rs.getString(2));
 				u.setApe_usua(rs.getString(3));
 				u.setUsua(rs.getString(4));
-				u.setClav(rs.getString(5));;
+				u.setClav(rs.getString(5));
+				;
 			}
 
 		} catch (Exception e) {

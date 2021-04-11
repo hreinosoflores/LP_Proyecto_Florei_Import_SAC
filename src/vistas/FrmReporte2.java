@@ -34,7 +34,7 @@ import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 
-import mantenimientos.GestionReporte2;
+import mantenimientos.GestionReporteProducto;
 import modelos.ReporteComprobante;
 
 public class FrmReporte2 extends JInternalFrame {
@@ -160,7 +160,7 @@ public class FrmReporte2 extends JInternalFrame {
 
 	public void generarPDF(String tipo) {
 
-		GestionReporte2 gr = new GestionReporte2();
+		GestionReporteProducto gr = new GestionReporteProducto();
 		ArrayList<ReporteComprobante> lista = gr.listado(tipo = leerTipo());
 		if (lista.isEmpty()) {
 			JOptionPane.showMessageDialog(null, "No hay datos para imprimir");
@@ -227,7 +227,7 @@ public class FrmReporte2 extends JInternalFrame {
 
 	public void consultar(String tipo) {
 
-		GestionReporte2 gr = new GestionReporte2();
+		GestionReporteProducto gr = new GestionReporteProducto();
 		ArrayList<ReporteComprobante> listado = gr.listado(tipo = leerTipo());
 		modelo.setRowCount(0);
 		for (ReporteComprobante r : listado) {

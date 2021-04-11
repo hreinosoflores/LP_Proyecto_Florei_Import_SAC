@@ -34,7 +34,7 @@ import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 import com.toedter.calendar.JDateChooser;
 
-import mantenimientos.GestionReporte1;
+import mantenimientos.GestionReporteComprobante;
 import modelos.ReporteProducto;
 
 public class FrmReporte1 extends JInternalFrame {
@@ -165,7 +165,7 @@ public class FrmReporte1 extends JInternalFrame {
 		String fec_ini = leerfec_ini();
 		String fec_fin = leerfec_fin();
 
-		GestionReporte1 gr = new GestionReporte1();
+		GestionReporteComprobante gr = new GestionReporteComprobante();
 		ArrayList<ReporteProducto> lista = gr.listado(tipo, fec_ini, fec_fin);
 		if (lista.isEmpty()) {
 			JOptionPane.showMessageDialog(null, "No hay datos para mostrar");
@@ -196,7 +196,7 @@ public class FrmReporte1 extends JInternalFrame {
 		String tipo = leertipo();
 		String fec_ini = leerfec_ini();
 		String fec_fin = leerfec_fin();
-		GestionReporte1 gr = new GestionReporte1();
+		GestionReporteComprobante gr = new GestionReporteComprobante();
 		ArrayList<ReporteProducto> lista = gr.listado(tipo, fec_ini, fec_fin);
 		if (lista.isEmpty()) {
 			JOptionPane.showMessageDialog(null, "No hay datos para imprimir");

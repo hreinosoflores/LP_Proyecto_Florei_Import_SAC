@@ -15,8 +15,8 @@ public interface ComprobantePagoInterface {
 	public int actualizar(ComprobantePago cp);
 
 	/*
-	 * public ArrayList<ComprobantePago> reportecomp(String tipo, String
-	 * fec_ini, String fec_fin);
+	 * public ArrayList<ComprobantePago> reportecomp(String tipo, String fec_ini,
+	 * String fec_fin);
 	 */
 
 }
