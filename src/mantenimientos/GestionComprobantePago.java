@@ -22,14 +22,13 @@ public class GestionComprobantePago implements ComprobantePagoInterface {
 		try {
 			con = MySQLConexion.getConexion();
 			con.setAutoCommit(false);
-			String sql = "insert into comprobante_pago" + "(fec_comp,tip_comp,lug_comp,cod_cli,usu_creador_comp)"
-					+ " values(?,?,?,?,?)";
+			String sql = "insert into comprobante_pago" + "(tip_comp,lug_comp,cod_cli,usu_creador_comp)"
+					+ " values(?,?,?,?)";
 			pst = con.prepareStatement(sql);
-			pst.setDate(1, cp.getFec_comp());
-			pst.setString(2, cp.getTip_comp());
-			pst.setString(3, cp.getLug_comp());
-			pst.setInt(4, cp.getCod_cli());
-			pst.setInt(5, cp.getUsu_creador_comp());
+			pst.setString(1, cp.getTip_comp());
+			pst.setString(2, cp.getLug_comp());
+			pst.setInt(3, cp.getCod_cli());
+			pst.setInt(4, cp.getUsu_creador_comp());
 			rs = pst.executeUpdate();
 
 			con.commit();
@@ -72,7 +71,7 @@ public class GestionComprobantePago implements ComprobantePagoInterface {
 			while (rs.next()) {
 				ComprobantePago cp = new ComprobantePago();
 				cp.setNum_comp(rs.getInt(1));
-				cp.setFec_comp(rs.getDate(2));
+				cp.setFec_comp(rs.getTimestamp(2));
 				cp.setTip_comp(rs.getString(3));
 				cp.setLug_comp(rs.getString(4));
 				cp.setCod_cli(rs.getInt(5));
@@ -128,14 +127,12 @@ public class GestionComprobantePago implements ComprobantePagoInterface {
 		PreparedStatement pst = null;
 		try {
 			con = MySQLConexion.getConexion();
-			pst = con.prepareStatement("update comprobante_pago set fec_comp = ?, " + "tip_comp = ?," + "lug_comp = ?,"
+			pst = con.prepareStatement("update comprobante_pago set " + "tip_comp = ?," + "lug_comp = ?,"
 					+ "cod_cli = ? where num_comp = ?");
-
-			pst.setDate(1, cp.getFec_comp());
-			pst.setString(2, cp.getTip_comp());
-			pst.setString(3, cp.getLug_comp());
-			pst.setInt(4, cp.getCod_cli());
-			pst.setInt(5, cp.getNum_comp());
+			pst.setString(1, cp.getTip_comp());
+			pst.setString(2, cp.getLug_comp());
+			pst.setInt(3, cp.getCod_cli());
+			pst.setInt(4, cp.getNum_comp());
 			rs = pst.executeUpdate();
 
 		} catch (Exception e) {

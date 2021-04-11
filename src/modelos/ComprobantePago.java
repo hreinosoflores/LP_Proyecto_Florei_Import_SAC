@@ -1,11 +1,11 @@
 package modelos;
 
-import java.sql.Date;
+import java.sql.Timestamp;
 
 public class ComprobantePago {
 	private int num_comp, cod_cli, usu_creador_comp;
 	private String tip_comp, lug_comp;
-	private Date fec_comp;
+	private Timestamp fec_comp;
 
 	public int getNum_comp() {
 		return num_comp;
@@ -47,11 +47,11 @@ public class ComprobantePago {
 		this.lug_comp = lug_comp;
 	}
 
-	public Date getFec_comp() {
+	public Timestamp getFec_comp() {
 		return fec_comp;
 	}
 
-	public void setFec_comp(Date fec_comp) {
+	public void setFec_comp(Timestamp fec_comp) {
 		this.fec_comp = fec_comp;
 	}
 
@@ -68,7 +68,7 @@ public class ComprobantePago {
 	}
 
 	public ComprobantePago(int num_comp, int cod_cli, int usu_creador_comp, String tip_comp, String lug_comp,
-			Date fec_comp) {
+			Timestamp fec_comp) {
 		this.num_comp = num_comp;
 		this.cod_cli = cod_cli;
 		this.usu_creador_comp = usu_creador_comp;
