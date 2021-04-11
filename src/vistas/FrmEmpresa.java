@@ -41,7 +41,16 @@ public class FrmEmpresa extends JInternalFrame {
 	private JScrollPane scrollPane;
 	private DefaultTableModel modelo;
 	String aviso1 = "Ingrese el valor numerico del codigo. Ejm: EMP0025 valor numerico->25";
-	private JTextField txtCliente;
+	private JLabel lblNewLabel;
+	private JLabel lblNewLabel_1;
+	private JLabel lblEmail;
+	private JLabel lblRaznSocial;
+	private JLabel lblRuc;
+	private JLabel lblTelfono;
+	private JButton btnRegistrar;
+	private JButton btnModificar;
+	private JButton btnEliminar;
+	private JButton btnLimpiar;
 
 	/**
 	 * Launch the application.
@@ -74,74 +83,75 @@ public class FrmEmpresa extends JInternalFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
-		JLabel lblNewLabel = new JLabel("Codigo");
+		lblNewLabel = new JLabel("C\u00F3digo");
 		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 14));
 		lblNewLabel.setBounds(10, 16, 85, 20);
 		contentPane.add(lblNewLabel);
 
 		txtCodigo = new JTextField();
+		txtCodigo.setEditable(false);
 		txtCodigo.setFont(new Font("Tahoma", Font.BOLD, 10));
-		txtCodigo.setBounds(98, 10, 108, 20);
+		txtCodigo.setBounds(88, 19, 116, 20);
 		contentPane.add(txtCodigo);
 		txtCodigo.setColumns(10);
 
-		JLabel lblNewLabel_1 = new JLabel("Direccion");
+		lblNewLabel_1 = new JLabel("Direcci\u00F3n");
 		lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblNewLabel_1.setBounds(10, 59, 85, 14);
+		lblNewLabel_1.setBounds(247, 60, 85, 14);
 		contentPane.add(lblNewLabel_1);
 
 		txtDireccion = new JTextField();
 		txtDireccion.setFont(new Font("Tahoma", Font.BOLD, 10));
-		txtDireccion.setBounds(98, 53, 108, 20);
+		txtDireccion.setBounds(352, 60, 262, 20);
 		contentPane.add(txtDireccion);
 		txtDireccion.setColumns(10);
 
-		JLabel lblEmail = new JLabel("Email");
+		lblEmail = new JLabel("E-Mail");
 		lblEmail.setFont(new Font("Tahoma", Font.BOLD, 14));
 		lblEmail.setBounds(10, 104, 60, 14);
 		contentPane.add(lblEmail);
 
 		txtEmail = new JTextField();
 		txtEmail.setFont(new Font("Tahoma", Font.BOLD, 10));
-		txtEmail.setBounds(98, 98, 111, 20);
+		txtEmail.setBounds(88, 104, 116, 20);
 		contentPane.add(txtEmail);
 		txtEmail.setColumns(10);
 
-		JLabel lblRaznSocial = new JLabel("Raz\u00F3n social");
+		lblRaznSocial = new JLabel("Raz\u00F3n social");
 		lblRaznSocial.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblRaznSocial.setBounds(293, 16, 106, 14);
+		lblRaznSocial.setBounds(247, 17, 106, 14);
 		contentPane.add(lblRaznSocial);
 
 		txtRazonso = new JTextField();
 		txtRazonso.setFont(new Font("Tahoma", Font.BOLD, 10));
-		txtRazonso.setBounds(397, 10, 169, 20);
+		txtRazonso.setBounds(352, 19, 262, 20);
 		contentPane.add(txtRazonso);
 		txtRazonso.setColumns(10);
 
-		JLabel lblRuc = new JLabel("Ruc");
+		lblRuc = new JLabel("RUC");
 		lblRuc.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblRuc.setBounds(293, 59, 46, 14);
+		lblRuc.setBounds(10, 60, 46, 14);
 		contentPane.add(lblRuc);
 
 		txtRuc = new JTextField();
 		txtRuc.setFont(new Font("Tahoma", Font.BOLD, 10));
-		txtRuc.setBounds(397, 58, 116, 20);
+		txtRuc.setBounds(88, 59, 116, 20);
 		contentPane.add(txtRuc);
 		txtRuc.setColumns(10);
 
-		JLabel lblTelfono = new JLabel("Tel\u00E9fono");
+		lblTelfono = new JLabel("Tel\u00E9fono-Celular");
 		lblTelfono.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblTelfono.setBounds(293, 104, 85, 14);
+		lblTelfono.setBounds(247, 105, 161, 20);
 		contentPane.add(lblTelfono);
 
 		txtTelefono = new JTextField();
 		txtTelefono.setFont(new Font("Tahoma", Font.BOLD, 10));
-		txtTelefono.setBounds(397, 98, 116, 20);
+		txtTelefono.setBounds(407, 104, 207, 20);
 		contentPane.add(txtTelefono);
 		txtTelefono.setColumns(10);
 
 		scrollPane = new JScrollPane();
-		scrollPane.setBounds(10, 245, 604, 241);
+		scrollPane.setBounds(10, 205, 604, 281);
 		contentPane.add(scrollPane);
 
 		tblEmpresa = new JTable();
@@ -153,40 +163,43 @@ public class FrmEmpresa extends JInternalFrame {
 		});
 		scrollPane.setViewportView(tblEmpresa);
 
-		JButton btnRegistrar = new JButton("Registrar");
+		btnRegistrar = new JButton("Registrar");
 		btnRegistrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				registrar();
+				limpiar();
 				listadoEmpleados();
 			}
 		});
 		btnRegistrar.setFont(new Font("Tahoma", Font.BOLD, 12));
 		btnRegistrar.setIcon(new ImageIcon(FrmEmpresa.class.getResource("/iconos/registrar.png")));
-		btnRegistrar.setBounds(10, 193, 145, 41);
+		btnRegistrar.setBounds(10, 153, 145, 41);
 		contentPane.add(btnRegistrar);
 
-		JButton btnModificar = new JButton("Modificar");
+		btnModificar = new JButton("Modificar");
 		btnModificar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				modificarDatos();
+				limpiar();
 				listadoEmpleados();
 			}
 		});
 		btnModificar.setFont(new Font("Tahoma", Font.BOLD, 12));
 		btnModificar.setIcon(new ImageIcon(FrmEmpresa.class.getResource("/iconos/modificar.png")));
-		btnModificar.setBounds(165, 196, 145, 38);
+		btnModificar.setBounds(165, 156, 145, 38);
 		contentPane.add(btnModificar);
 
-		JButton btnEliminar = new JButton("Eliminar");
+		btnEliminar = new JButton("Eliminar");
 		btnEliminar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				eliminardatos();
+				limpiar();
 				listadoEmpleados();
 			}
 		});
 		btnEliminar.setFont(new Font("Tahoma", Font.BOLD, 12));
 		btnEliminar.setIcon(new ImageIcon(FrmEmpresa.class.getResource("/iconos/eliminar.png")));
-		btnEliminar.setBounds(318, 196, 145, 38);
+		btnEliminar.setBounds(318, 156, 145, 38);
 		contentPane.add(btnEliminar);
 
 		modelo = new DefaultTableModel();
@@ -198,17 +211,15 @@ public class FrmEmpresa extends JInternalFrame {
 		modelo.addColumn("Teléfono");
 		modelo.addColumn("Cliente");
 		tblEmpresa.setModel(modelo);
-
-		JLabel lblCliente = new JLabel("Codigo Cliente");
-		lblCliente.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblCliente.setBounds(10, 145, 145, 20);
-		contentPane.add(lblCliente);
-
-		txtCliente = new JTextField();
-		txtCliente.setFont(new Font("Tahoma", Font.BOLD, 10));
-		txtCliente.setColumns(10);
-		txtCliente.setBounds(142, 148, 111, 20);
-		contentPane.add(txtCliente);
+		
+		btnLimpiar = new JButton("LIMPIAR DATOS");
+		btnLimpiar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				limpiar();
+			}
+		});
+		btnLimpiar.setBounds(473, 155, 141, 39);
+		contentPane.add(btnLimpiar);
 
 		ajustarAnchoColumnas();
 		listadoEmpleados();
@@ -229,21 +240,21 @@ public class FrmEmpresa extends JInternalFrame {
 	}
 
 	public void registrar() {
-		int cod_cli;
+		int usu_creado_emp;
 		String raz_soc_emp, direc_emp, ruc_emp, email_emp, telefono;
 		raz_soc_emp = leerRazSocial();
 		direc_emp = leerDireccion();
 		ruc_emp = leerRuc();
 		email_emp = leerEmail();
 		telefono = leerTelefono();
-		cod_cli = leerCliente();
+		usu_creado_emp=1;//obtener de la sesion tras el logueo
 		Empresa e = new Empresa();
 		e.setRaz_soc_emp(raz_soc_emp);
 		e.setDirec_emp(direc_emp);
 		e.setRuc_emp(ruc_emp);
 		e.setEmail_emp(email_emp);
 		e.setTelefono(telefono);
-		e.setCod_cli(cod_cli);
+		e.setUsu_creado_emp(usu_creado_emp);
 		GestionEmpresa ge = new GestionEmpresa();
 		int ok = ge.registrar(e);
 		if (ok == 0) {
@@ -255,27 +266,20 @@ public class FrmEmpresa extends JInternalFrame {
 	}
 
 	void eliminardatos() {
-
 		int cod_emp = leerCodigo();
 		Empresa e = new Empresa();
 		e.setCod_emp(cod_emp);
-		if (cod_emp >= 1) {
-			GestionEmpresa gc = new GestionEmpresa();
-			int ok = gc.eliminar(e);
-			if (ok == 0) {
-				JOptionPane.showMessageDialog(null, FrmPrincipal.aviso6);
-			} else {
-				JOptionPane.showMessageDialog(null, FrmPrincipal.aviso3);
-			}
-
+		GestionEmpresa gc = new GestionEmpresa();
+		int ok = gc.eliminar(e);
+		if (ok == 0) {
+			JOptionPane.showMessageDialog(null, FrmPrincipal.aviso6);
 		} else {
-			JOptionPane.showMessageDialog(null, aviso1);
+			JOptionPane.showMessageDialog(null, FrmPrincipal.aviso3);
 		}
-
 	}
 
 	public void modificarDatos() {
-		int cod_emp, cod_cli;
+		int cod_emp;
 		String raz_soc_emp, direc_emp, ruc_emp, email_emp, telefono;
 		cod_emp = leerCodigo();
 		raz_soc_emp = leerRazSocial();
@@ -283,7 +287,7 @@ public class FrmEmpresa extends JInternalFrame {
 		ruc_emp = leerRuc();
 		email_emp = leerEmail();
 		telefono = leerTelefono();
-		cod_cli = leerCliente();
+
 		Empresa e = new Empresa();
 		e.setCod_emp(cod_emp);
 		e.setRaz_soc_emp(raz_soc_emp);
@@ -291,19 +295,13 @@ public class FrmEmpresa extends JInternalFrame {
 		e.setRuc_emp(ruc_emp);
 		e.setEmail_emp(email_emp);
 		e.setTelefono(telefono);
-		e.setCod_cli(cod_cli);
 		GestionEmpresa ge = new GestionEmpresa();
-		if (cod_emp >= 1) {
 			int ok = ge.actualizar(e);
 			if (ok == 0) {
 				JOptionPane.showMessageDialog(null, FrmPrincipal.aviso5);
 			} else {
 				JOptionPane.showMessageDialog(null, FrmPrincipal.aviso2);
 			}
-		} else {
-			JOptionPane.showMessageDialog(null, aviso1);
-
-		}
 	}
 
 	public void listadoEmpleados() {
@@ -311,17 +309,14 @@ public class FrmEmpresa extends JInternalFrame {
 		ArrayList<Empresa> lista = ge.listado();
 		modelo.setRowCount(0);
 		for (Empresa em : lista) {
-			Object[] fila = { em.codigochar(), em.getRaz_soc_emp(), em.getDirec_emp(), em.getRuc_emp(),
-					em.getEmail_emp(), em.getTelefono(), em.getCod_cli()
-
-			};
+			Object[] fila = { em.getCod_emp(), em.getRaz_soc_emp(), em.getDirec_emp(), em.getRuc_emp(),
+					em.getEmail_emp(), em.getTelefono(), em.getUsu_creado_emp()	};
 			modelo.addRow(fila);
-
 		}
 	}
 
 	int leerCodigo() {
-		int cod = -1;
+		int cod = 0;
 		try {
 			cod = Integer.parseInt(txtCodigo.getText().trim());
 		} catch (NumberFormatException e) {
@@ -380,17 +375,7 @@ public class FrmEmpresa extends JInternalFrame {
 
 	}
 
-	int leerCliente() {
-		int c = -1;
-		try {
-			c = Integer.parseInt(txtCliente.getText().trim());
-			;
-		} catch (Exception e) {
-			JOptionPane.showMessageDialog(null,
-					"Ingrese el valor numerico del codigo Cliente. Ejm: CLI0025 valor numerico->25");
-		}
-		return c;
-	}
+	
 
 	public void rellenarformulario() {
 		int fila = tblEmpresa.getSelectedRow();
@@ -402,5 +387,14 @@ public class FrmEmpresa extends JInternalFrame {
 		txtTelefono.setText(tblEmpresa.getValueAt(fila, 5).toString());
 
 	}
-
+	
+	void limpiar() {
+		txtCodigo.setText("");
+		txtRazonso.setText("");
+		txtDireccion.setText("");
+		txtRuc.setText("");
+		txtEmail.setText("");
+		txtTelefono.setText("");
+		txtRazonso.requestFocus();
+	}
 }

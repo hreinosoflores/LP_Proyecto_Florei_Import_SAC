@@ -134,7 +134,7 @@ public class GestionEmpresa implements EmpresaInterface {
 		try {
 			con = MySQLConexion.getConexion();
 			pst = con.prepareStatement("update empresa_remitente " + "set raz_soc_emp=?," + "direc_emp=?,"
-					+ "ruc_emp=?," + "email_emp=? ," + "telefono=?," + " where cod_emp=?");
+					+ "ruc_emp=?," + "email_emp=? ," + "telefono=?" + " where cod_emp=?");
 			pst.setString(1, e.getRaz_soc_emp());
 			pst.setString(2, e.getDirec_emp());
 			pst.setString(3, e.getRuc_emp());
