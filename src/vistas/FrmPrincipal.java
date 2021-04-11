@@ -19,7 +19,6 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import hilos.HiloFunciona;
-import javax.swing.JLabel;
 
 public class FrmPrincipal extends JFrame {
 
@@ -41,12 +40,11 @@ public class FrmPrincipal extends JFrame {
 	private JMenuItem mntmReporte2;
 	private JMenuItem mntmCliente;
 	private JMenuItem mntmComprobantePago;
-	private JMenuItem mntmComprobanteProducto;
 	private JMenuItem mntmEmpresaRemitente;
-	private JMenuItem mntmGua;
+	private JMenuItem mntmGuia;
 	private JMenuItem mntmProducto;
 	private JMenuItem mntmTransportista;
-	private JMenuBar mnHora;
+	private JMenuBar mbPrincipal;
 	private JMenu mnArchivo;
 	private JMenuItem mntmSalir;
 	private JMenu mnMantenimiento;
@@ -77,14 +75,14 @@ public class FrmPrincipal extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 800, 600);
 
-		mnHora = new JMenuBar();
-		mnHora.setToolTipText("00:00:00");
-		mnHora.setBackground(new Color(153, 255, 102));
-		setJMenuBar(mnHora);
+		mbPrincipal = new JMenuBar();
+		mbPrincipal.setToolTipText("00:00:00");
+		mbPrincipal.setBackground(new Color(153, 255, 102));
+		setJMenuBar(mbPrincipal);
 
 		mnArchivo = new JMenu("Archivo");
 		mnArchivo.setIcon(new ImageIcon(FrmPrincipal.class.getResource("/iconos/archivo.png")));
-		mnHora.add(mnArchivo);
+		mbPrincipal.add(mnArchivo);
 
 		mntmSalir = new JMenuItem("Salir");
 		mntmSalir.setIcon(new ImageIcon(FrmPrincipal.class.getResource("/iconos/salir.png")));
@@ -97,7 +95,7 @@ public class FrmPrincipal extends JFrame {
 
 		mnMantenimiento = new JMenu("Mantenimiento");
 		mnMantenimiento.setIcon(new ImageIcon(FrmPrincipal.class.getResource("/iconos/mantenimiento.png")));
-		mnHora.add(mnMantenimiento);
+		mbPrincipal.add(mnMantenimiento);
 
 		mntmCliente = new JMenuItem("Cliente");
 		mntmCliente.setIcon(new ImageIcon(FrmPrincipal.class.getResource("/iconos/clientedestinatario.png")));
@@ -114,36 +112,6 @@ public class FrmPrincipal extends JFrame {
 		});
 		mnMantenimiento.add(mntmCliente);
 
-		mntmComprobantePago = new JMenuItem("Comprobante Pago");
-		mntmComprobantePago.setIcon(new ImageIcon(FrmPrincipal.class.getResource("/iconos/comprobante.png")));
-		mntmComprobantePago.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				FrmComprobantePago v = new FrmComprobantePago();
-				escritorio.add(v);
-				v.setVisible(true);
-				Dimension desktopSize = escritorio.getSize();
-				Dimension FrameSize = v.getSize();
-				v.setLocation((desktopSize.width - FrameSize.width) / 2, (desktopSize.height - FrameSize.height) / 2);
-				v.show();
-			}
-		});
-		mnMantenimiento.add(mntmComprobantePago);
-
-		mntmComprobanteProducto = new JMenuItem("Comprobante Producto");
-		mntmComprobanteProducto.setIcon(new ImageIcon(FrmPrincipal.class.getResource("/iconos/comprobante.png")));
-		mntmComprobanteProducto.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				FrmComprobanteProducto v = new FrmComprobanteProducto();
-				escritorio.add(v);
-				v.setVisible(true);
-				Dimension desktopSize = escritorio.getSize();
-				Dimension FrameSize = v.getSize();
-				v.setLocation((desktopSize.width - FrameSize.width) / 2, (desktopSize.height - FrameSize.height) / 2);
-				v.show();
-			}
-		});
-		mnMantenimiento.add(mntmComprobanteProducto);
-
 		mntmEmpresaRemitente = new JMenuItem("Empresa");
 		mntmEmpresaRemitente.setIcon(new ImageIcon(FrmPrincipal.class.getResource("/iconos/empresa.png")));
 		mntmEmpresaRemitente.addActionListener(new ActionListener() {
@@ -157,13 +125,12 @@ public class FrmPrincipal extends JFrame {
 				v.show();
 			}
 		});
-		mnMantenimiento.add(mntmEmpresaRemitente);
 
-		mntmGua = new JMenuItem("Gu\u00EDa");
-		mntmGua.setIcon(new ImageIcon(FrmPrincipal.class.getResource("/iconos/comprobante.png")));
-		mntmGua.addActionListener(new ActionListener() {
+		mntmTransportista = new JMenuItem("Transportista");
+		mntmTransportista.setIcon(new ImageIcon(FrmPrincipal.class.getResource("/iconos/transportista.png")));
+		mntmTransportista.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				FrmGuia v = new FrmGuia();
+				FrmTransportista v = new FrmTransportista();
 				escritorio.add(v);
 				v.setVisible(true);
 				Dimension desktopSize = escritorio.getSize();
@@ -172,7 +139,8 @@ public class FrmPrincipal extends JFrame {
 				v.show();
 			}
 		});
-		mnMantenimiento.add(mntmGua);
+		mnMantenimiento.add(mntmTransportista);
+		mnMantenimiento.add(mntmEmpresaRemitente);
 
 		mntmProducto = new JMenuItem("Producto");
 		mntmProducto.setIcon(new ImageIcon(FrmPrincipal.class.getResource("/iconos/producto.png")));
@@ -189,11 +157,11 @@ public class FrmPrincipal extends JFrame {
 		});
 		mnMantenimiento.add(mntmProducto);
 
-		mntmTransportista = new JMenuItem("Transportista");
-		mntmTransportista.setIcon(new ImageIcon(FrmPrincipal.class.getResource("/iconos/transportista.png")));
-		mntmTransportista.addActionListener(new ActionListener() {
+		mntmGuia = new JMenuItem("Gu\u00EDa");
+		mntmGuia.setIcon(new ImageIcon(FrmPrincipal.class.getResource("/iconos/comprobante.png")));
+		mntmGuia.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				FrmTransportista v = new FrmTransportista();
+				FrmGuia v = new FrmGuia();
 				escritorio.add(v);
 				v.setVisible(true);
 				Dimension desktopSize = escritorio.getSize();
@@ -202,11 +170,26 @@ public class FrmPrincipal extends JFrame {
 				v.show();
 			}
 		});
-		mnMantenimiento.add(mntmTransportista);
+
+		mntmComprobantePago = new JMenuItem("Comprobante Pago");
+		mntmComprobantePago.setIcon(new ImageIcon(FrmPrincipal.class.getResource("/iconos/comprobante.png")));
+		mntmComprobantePago.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				FrmComprobantePago v = new FrmComprobantePago();
+				escritorio.add(v);
+				v.setVisible(true);
+				Dimension desktopSize = escritorio.getSize();
+				Dimension FrameSize = v.getSize();
+				v.setLocation((desktopSize.width - FrameSize.width) / 2, (desktopSize.height - FrameSize.height) / 2);
+				v.show();
+			}
+		});
+		mnMantenimiento.add(mntmComprobantePago);
+		mnMantenimiento.add(mntmGuia);
 
 		mnReportes = new JMenu("Reportes");
 		mnReportes.setIcon(new ImageIcon(FrmPrincipal.class.getResource("/iconos/reporte.png")));
-		mnHora.add(mnReportes);
+		mbPrincipal.add(mnReportes);
 
 		mntmReporte1 = new JMenuItem("Reporte de comprobantes por fecha");
 		mntmReporte1.setIcon(new ImageIcon(FrmPrincipal.class.getResource("/iconos/reporte.png")));
@@ -222,8 +205,7 @@ public class FrmPrincipal extends JFrame {
 			}
 		});
 		mnReportes.add(mntmReporte1);
-		
-		
+
 		mntmReporte2 = new JMenuItem("Reporte por Documento");
 		mntmReporte2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -237,7 +219,6 @@ public class FrmPrincipal extends JFrame {
 
 			}
 		});
-		
 
 		mntmReporte3 = new JMenuItem("Reporte de Producto en Stock");
 		mntmReporte3.addActionListener(new ActionListener() {
@@ -253,15 +234,13 @@ public class FrmPrincipal extends JFrame {
 			}
 		});
 
-		
-	
 		mntmReporte2.setIcon(new ImageIcon(FrmPrincipal.class.getResource("/iconos/reporte.png")));
 		mnReportes.add(mntmReporte2);
 		mntmReporte3.setIcon(new ImageIcon(FrmPrincipal.class.getResource("/iconos/reporte.png")));
 		mnReportes.add(mntmReporte3);
 
 		mnHoraDelDia = new JMenu("00:00:00");
-		mnHora.add(mnHoraDelDia);
+		mbPrincipal.add(mnHoraDelDia);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
