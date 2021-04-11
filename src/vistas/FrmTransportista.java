@@ -41,12 +41,17 @@ public class FrmTransportista extends JInternalFrame {
 	private JButton btnRegistrar;
 	private JButton btnModificar;
 	private JButton btnEliminar;
-	private JButton btnGuardar;
+	private JButton btnLimpiar;
 	private JTable tblTransportista;
 	private JScrollPane scrollPane;
 	private DefaultTableModel modelo;
-	private JButton btnLimpiar;
-	String aviso1 = "Ingrese el valor numerico del codigo. Ejm: TR0025 valor numerico->25";
+	private JLabel lblCodigo;
+	private JLabel lblNombres;
+	private JLabel lblDireccion;
+	private JLabel lblRUC;
+	private JLabel lblLicencia;
+	private JLabel lblApellidos;
+	private JLabel lblTelefono;
 
 	/**
 	 * Launch the application.
@@ -79,54 +84,55 @@ public class FrmTransportista extends JInternalFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
-		JLabel lblCodigo = new JLabel("C\u00F3digo");
+		lblCodigo = new JLabel("C\u00F3digo");
 		lblCodigo.setFont(new Font("Tahoma", Font.BOLD, 14));
 		lblCodigo.setBounds(10, 17, 74, 14);
 		contentPane.add(lblCodigo);
 
 		txtCodigo = new JTextField();
+		txtCodigo.setEditable(false);
 		txtCodigo.setFont(new Font("Tahoma", Font.BOLD, 10));
-		txtCodigo.setBounds(102, 11, 133, 20);
+		txtCodigo.setBounds(102, 11, 145, 20);
 		contentPane.add(txtCodigo);
 		txtCodigo.setColumns(10);
 
-		JLabel lblNombres = new JLabel("Nombres");
+		lblNombres = new JLabel("Nombres");
 		lblNombres.setFont(new Font("Tahoma", Font.BOLD, 14));
 		lblNombres.setBounds(10, 54, 74, 14);
 		contentPane.add(lblNombres);
 
 		txtNombre = new JTextField();
 		txtNombre.setFont(new Font("Tahoma", Font.BOLD, 10));
-		txtNombre.setBounds(102, 48, 133, 20);
+		txtNombre.setBounds(102, 48, 145, 20);
 		contentPane.add(txtNombre);
 		txtNombre.setColumns(10);
 
-		JLabel lblDireccion = new JLabel("Direcci\u00F3n");
+		lblDireccion = new JLabel("Direcci\u00F3n");
 		lblDireccion.setFont(new Font("Tahoma", Font.BOLD, 14));
 		lblDireccion.setBounds(10, 91, 74, 14);
 		contentPane.add(lblDireccion);
 
 		txtDireccion = new JTextField();
 		txtDireccion.setFont(new Font("Tahoma", Font.BOLD, 10));
-		txtDireccion.setBounds(102, 85, 133, 20);
+		txtDireccion.setBounds(102, 85, 145, 20);
 		contentPane.add(txtDireccion);
 		txtDireccion.setColumns(10);
 
-		JLabel lblRUC = new JLabel("RUC");
+		lblRUC = new JLabel("RUC");
 		lblRUC.setFont(new Font("Tahoma", Font.BOLD, 14));
 		lblRUC.setBounds(10, 131, 62, 14);
 		contentPane.add(lblRUC);
 
 		txtRuc = new JTextField();
 		txtRuc.setFont(new Font("Tahoma", Font.BOLD, 10));
-		txtRuc.setBounds(102, 125, 133, 20);
+		txtRuc.setBounds(102, 125, 145, 20);
 		contentPane.add(txtRuc);
 		txtRuc.setColumns(10);
 
-		JLabel lblNmeroLicencia = new JLabel("N\u00FAmero licencia");
-		lblNmeroLicencia.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblNmeroLicencia.setBounds(308, 131, 124, 14);
-		contentPane.add(lblNmeroLicencia);
+		lblLicencia = new JLabel("Nro Licencia");
+		lblLicencia.setFont(new Font("Tahoma", Font.BOLD, 14));
+		lblLicencia.setBounds(308, 131, 124, 14);
+		contentPane.add(lblLicencia);
 
 		txtLicencia = new JTextField();
 		txtLicencia.setFont(new Font("Tahoma", Font.BOLD, 10));
@@ -134,25 +140,25 @@ public class FrmTransportista extends JInternalFrame {
 		contentPane.add(txtLicencia);
 		txtLicencia.setColumns(10);
 
-		JLabel lblApellidos = new JLabel("Apellidos");
+		lblApellidos = new JLabel("Apellidos");
 		lblApellidos.setFont(new Font("Tahoma", Font.BOLD, 14));
 		lblApellidos.setBounds(308, 54, 92, 14);
 		contentPane.add(lblApellidos);
 
 		txtApellido = new JTextField();
 		txtApellido.setFont(new Font("Tahoma", Font.BOLD, 10));
-		txtApellido.setBounds(410, 48, 133, 20);
+		txtApellido.setBounds(442, 54, 154, 20);
 		contentPane.add(txtApellido);
 		txtApellido.setColumns(10);
 
-		JLabel lblTelefono = new JLabel("Tel\u00E9fono");
+		lblTelefono = new JLabel("Tel\u00E9fono");
 		lblTelefono.setFont(new Font("Tahoma", Font.BOLD, 14));
 		lblTelefono.setBounds(308, 91, 92, 14);
 		contentPane.add(lblTelefono);
 
 		txtTelefono = new JTextField();
 		txtTelefono.setFont(new Font("Tahoma", Font.BOLD, 10));
-		txtTelefono.setBounds(410, 85, 133, 20);
+		txtTelefono.setBounds(442, 91, 154, 20);
 		contentPane.add(txtTelefono);
 		txtTelefono.setColumns(10);
 
@@ -205,12 +211,6 @@ public class FrmTransportista extends JInternalFrame {
 		btnEliminar.setBounds(320, 176, 145, 33);
 		contentPane.add(btnEliminar);
 
-		btnGuardar = new JButton("Guardar");
-		btnGuardar.setFont(new Font("Tahoma", Font.BOLD, 12));
-		btnGuardar.setIcon(new ImageIcon(FrmTransportista.class.getResource("/iconos/guardar.png")));
-		btnGuardar.setBounds(475, 176, 141, 33);
-		contentPane.add(btnGuardar);
-
 		modelo = new DefaultTableModel();
 		modelo.addColumn("Código");
 		modelo.addColumn("Nombres");
@@ -258,7 +258,6 @@ public class FrmTransportista extends JInternalFrame {
 
 	void rellenarTrans() {
 		int fila = tblTransportista.getSelectedRow();
-
 		txtCodigo.setText(tblTransportista.getValueAt(fila, 0).toString());
 		txtNombre.setText(tblTransportista.getValueAt(fila, 1).toString());
 		txtApellido.setText(tblTransportista.getValueAt(fila, 2).toString());
@@ -270,7 +269,7 @@ public class FrmTransportista extends JInternalFrame {
 	}
 
 	void registrar() {
-
+		int usu_creador_trans;
 		String Nombre, Apellido, Direccion, Telefono, Ruc, NroLic;
 
 		Nombre = leerNombre();
@@ -279,17 +278,18 @@ public class FrmTransportista extends JInternalFrame {
 		Telefono = leerTelefono();
 		Ruc = leerRuc();
 		NroLic = leerNumeeroLic();
+		usu_creador_trans = 1;
 
 		Transportista t = new Transportista();
-
 		t.setNom_trans(Nombre);
 		t.setApe_trans(Apellido);
 		t.setDirec_trans(Direccion);
 		t.setTelf_trans(Telefono);
 		t.setRuc_trans(Ruc);
 		t.setNum_lic(NroLic);
-		GestionTransportista gt = new GestionTransportista();
+		t.setUsu_creador_trans(usu_creador_trans);
 
+		GestionTransportista gt = new GestionTransportista();
 		int ok = gt.registrar(t);
 		if (ok == 0) {
 			JOptionPane.showMessageDialog(null, FrmPrincipal.aviso4);
@@ -320,17 +320,11 @@ public class FrmTransportista extends JInternalFrame {
 		t.setRuc_trans(Ruc);
 		t.setNum_lic(NroLic);
 		GestionTransportista gt = new GestionTransportista();
-		if (Codigo >= 1) {
-
-			int ok = gt.actualizar(t);
-			if (ok == 0) {
-				JOptionPane.showMessageDialog(null, FrmPrincipal.aviso5);
-			} else {
-				JOptionPane.showMessageDialog(null, FrmPrincipal.aviso2);
-			}
+		int ok = gt.actualizar(t);
+		if (ok == 0) {
+			JOptionPane.showMessageDialog(null, FrmPrincipal.aviso5);
 		} else {
-			JOptionPane.showMessageDialog(null, aviso1);
-
+			JOptionPane.showMessageDialog(null, FrmPrincipal.aviso2);
 		}
 
 	}
@@ -339,17 +333,12 @@ public class FrmTransportista extends JInternalFrame {
 		int cod_trans = leerCodigo();
 		Transportista t = new Transportista();
 		t.setCod_trans(cod_trans);
-		if (cod_trans >= 1) {
-			GestionTransportista gt = new GestionTransportista();
-			int ok = gt.eliminar(t);
-			if (ok == 0) {
-				JOptionPane.showMessageDialog(null, FrmPrincipal.aviso6);
-			} else {
-				JOptionPane.showMessageDialog(null, FrmPrincipal.aviso3);
-			}
-
+		GestionTransportista gt = new GestionTransportista();
+		int ok = gt.eliminar(t);
+		if (ok == 0) {
+			JOptionPane.showMessageDialog(null, FrmPrincipal.aviso6);
 		} else {
-			JOptionPane.showMessageDialog(null, aviso1);
+			JOptionPane.showMessageDialog(null, FrmPrincipal.aviso3);
 		}
 	}
 
@@ -358,20 +347,19 @@ public class FrmTransportista extends JInternalFrame {
 		ArrayList<Transportista> lista = gt.listado();
 		modelo.setRowCount(0);
 		for (Transportista t : lista) {
-			Object[] datos = { t.codigochar(), t.getNom_trans(), t.getApe_trans(), t.getDirec_trans(),
-					t.getTelf_trans(), t.getRuc_trans(), t.getNum_lic() };
+			Object[] datos = { t.getCod_trans(), t.getNom_trans(), t.getApe_trans(), t.getDirec_trans(),
+					t.getTelf_trans(), t.getRuc_trans(), t.getNum_lic(), t.getUsu_creador_trans() };
 			modelo.addRow(datos);
 		}
 
 	}
 
 	int leerCodigo() {
-
-		int cod = -1;
+		int cod = 0;
 		try {
 			cod = Integer.parseInt(txtCodigo.getText().trim());
 		} catch (NumberFormatException e) {
-			JOptionPane.showMessageDialog(null, aviso1);
+			JOptionPane.showMessageDialog(null, e.getMessage());
 		}
 		return cod;
 
@@ -412,10 +400,11 @@ public class FrmTransportista extends JInternalFrame {
 
 	String leerNumeeroLic() {
 		String NroLic = txtLicencia.getText().trim();
-		if (NroLic.matches("[0-9]{5}"))
+		if (NroLic.matches("([0-9]{5})?"))
 			return NroLic;
 		else
-			JOptionPane.showMessageDialog(this, "Campo Nro Licencia: 5 dígitos ");
+			JOptionPane.showMessageDialog(this,
+					"Campo Nro Licencia incorrecto: una letra mayúscula seguida de 8 dígitos ");
 		return null;
 	}
 }

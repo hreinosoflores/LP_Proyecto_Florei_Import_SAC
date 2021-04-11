@@ -430,7 +430,7 @@ public class FrmCliente extends JInternalFrame {
 	String leerNumeroDocumento() {
 		String nd = null;
 		nd = txtNumerodoc.getText().trim();
-		if (nd.matches("[0-9]{8,12}")) {
+		if (nd.matches("([0-9]{8,12})?")) {
 			return nd;
 		} else {
 			JOptionPane.showMessageDialog(null, "Numero Documento incorrecto: [0-9]{1,20}");
