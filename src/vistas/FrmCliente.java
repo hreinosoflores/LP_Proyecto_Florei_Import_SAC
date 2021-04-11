@@ -28,20 +28,36 @@ import modelos.Cliente;
 
 public class FrmCliente extends JInternalFrame {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTextField txtCodigo;
-	private JTextField txtNombre;
+	private JTextField txtNombres;
 	private JTextField txtRuc;
 	private JTextField txtTelefono;
-	private JTextField txtApellido;
+	private JTextField txtApellidos;
 	private JTextField txtNumerodoc;
 	private JTextField txtDireccion;
 	private JTextField txtEmail;
 	private JTable tblCliente;
 	private DefaultTableModel modelo;
 	private JScrollPane scrollPane;
-	private JComboBox cboTipoDoc;
-	String aviso1 = "Ingrese el valor numerico del codigo. Ejm: CLI0025 valor numerico->25";
+	private JComboBox<String> cboTipoDocumento;
+	private JLabel lblCodigo;
+	private JLabel lblNombres;
+	private JLabel lblTipoDocumento;
+	private JLabel lblRuc;
+	private JLabel lblTelefono;
+	private JLabel lblApellidos;
+	private JLabel lblNumerodoc;
+	private JLabel lblDireccion;
+	private JLabel lblEmail;
+	private JButton btnRegistrar;
+	private JButton btnModificar;
+	private JButton btnEliminar;
+	private JButton btnLimpiar;
 
 	/**
 	 * Launch the application.
@@ -74,40 +90,42 @@ public class FrmCliente extends JInternalFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
-		JLabel lblNewLabel = new JLabel("Codigo");
-		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblNewLabel.setBounds(10, 21, 83, 14);
-		contentPane.add(lblNewLabel);
+		lblCodigo = new JLabel("C\u00F3digo");
+		lblCodigo.setFont(new Font("Tahoma", Font.BOLD, 14));
+		lblCodigo.setBounds(10, 21, 83, 14);
+		contentPane.add(lblCodigo);
 
 		txtCodigo = new JTextField();
+		txtCodigo.setEditable(false);
 		txtCodigo.setFont(new Font("Tahoma", Font.BOLD, 10));
-		txtCodigo.setBounds(103, 15, 173, 20);
+		txtCodigo.setBounds(103, 15, 101, 20);
 		contentPane.add(txtCodigo);
 		txtCodigo.setColumns(10);
 
-		JLabel lblNewLabel_1 = new JLabel("Nombres");
-		lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblNewLabel_1.setBounds(10, 52, 83, 14);
-		contentPane.add(lblNewLabel_1);
+		lblNombres = new JLabel("Nombres");
+		lblNombres.setFont(new Font("Tahoma", Font.BOLD, 14));
+		lblNombres.setBounds(10, 52, 83, 14);
+		contentPane.add(lblNombres);
 
-		txtNombre = new JTextField();
-		txtNombre.setFont(new Font("Tahoma", Font.BOLD, 10));
-		txtNombre.setBounds(103, 46, 173, 20);
-		contentPane.add(txtNombre);
-		txtNombre.setColumns(10);
+		txtNombres = new JTextField();
+		txtNombres.setFont(new Font("Tahoma", Font.BOLD, 10));
+		txtNombres.setBounds(103, 46, 173, 20);
+		contentPane.add(txtNombres);
+		txtNombres.setColumns(10);
 
-		JLabel lblTipoDocumento = new JLabel("Tipo Documento");
+		lblTipoDocumento = new JLabel("Tipo Documento");
 		lblTipoDocumento.setFont(new Font("Tahoma", Font.BOLD, 14));
 		lblTipoDocumento.setBounds(10, 83, 135, 14);
 		contentPane.add(lblTipoDocumento);
 
-		cboTipoDoc = new JComboBox();
-		cboTipoDoc.setModel(new DefaultComboBoxModel(new String[] { "Seleccione\t", "DNI", "CARNET DE EXTRANJERIA" }));
-		cboTipoDoc.setFont(new Font("Tahoma", Font.BOLD, 10));
-		cboTipoDoc.setBounds(148, 77, 128, 20);
-		contentPane.add(cboTipoDoc);
+		cboTipoDocumento = new JComboBox<String>();
+		cboTipoDocumento.setModel(
+				new DefaultComboBoxModel<String>(new String[] {"Seleccione", "DNI", "CARNET DE EXTRANJERIA"}));
+		cboTipoDocumento.setFont(new Font("Tahoma", Font.BOLD, 10));
+		cboTipoDocumento.setBounds(148, 77, 128, 20);
+		contentPane.add(cboTipoDocumento);
 
-		JLabel lblRuc = new JLabel("RUC");
+		lblRuc = new JLabel("RUC");
 		lblRuc.setFont(new Font("Tahoma", Font.BOLD, 14));
 		lblRuc.setBounds(10, 114, 83, 14);
 		contentPane.add(lblRuc);
@@ -118,10 +136,10 @@ public class FrmCliente extends JInternalFrame {
 		contentPane.add(txtRuc);
 		txtRuc.setColumns(10);
 
-		JLabel lblTelfono = new JLabel("Tel\u00E9fono");
-		lblTelfono.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblTelfono.setBounds(10, 145, 83, 14);
-		contentPane.add(lblTelfono);
+		lblTelefono = new JLabel("Tel\u00E9fono");
+		lblTelefono.setFont(new Font("Tahoma", Font.BOLD, 14));
+		lblTelefono.setBounds(10, 145, 83, 14);
+		contentPane.add(lblTelefono);
 
 		txtTelefono = new JTextField();
 		txtTelefono.setFont(new Font("Tahoma", Font.BOLD, 10));
@@ -129,21 +147,21 @@ public class FrmCliente extends JInternalFrame {
 		contentPane.add(txtTelefono);
 		txtTelefono.setColumns(10);
 
-		JLabel lblNewLabel_2 = new JLabel("Apellidos");
-		lblNewLabel_2.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblNewLabel_2.setBounds(322, 52, 89, 14);
-		contentPane.add(lblNewLabel_2);
+		lblApellidos = new JLabel("Apellidos");
+		lblApellidos.setFont(new Font("Tahoma", Font.BOLD, 14));
+		lblApellidos.setBounds(322, 52, 89, 14);
+		contentPane.add(lblApellidos);
 
-		txtApellido = new JTextField();
-		txtApellido.setFont(new Font("Tahoma", Font.BOLD, 10));
-		txtApellido.setBounds(421, 46, 194, 20);
-		contentPane.add(txtApellido);
-		txtApellido.setColumns(10);
+		txtApellidos = new JTextField();
+		txtApellidos.setFont(new Font("Tahoma", Font.BOLD, 10));
+		txtApellidos.setBounds(421, 46, 194, 20);
+		contentPane.add(txtApellidos);
+		txtApellidos.setColumns(10);
 
-		JLabel lblNmeroDocumento = new JLabel("N\u00FAmero documento");
-		lblNmeroDocumento.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblNmeroDocumento.setBounds(322, 83, 155, 14);
-		contentPane.add(lblNmeroDocumento);
+		lblNumerodoc = new JLabel("N\u00FAmero documento");
+		lblNumerodoc.setFont(new Font("Tahoma", Font.BOLD, 14));
+		lblNumerodoc.setBounds(322, 83, 155, 14);
+		contentPane.add(lblNumerodoc);
 
 		txtNumerodoc = new JTextField();
 		txtNumerodoc.setFont(new Font("Tahoma", Font.BOLD, 10));
@@ -151,10 +169,10 @@ public class FrmCliente extends JInternalFrame {
 		contentPane.add(txtNumerodoc);
 		txtNumerodoc.setColumns(10);
 
-		JLabel lblNewLabel_3 = new JLabel("Direcci\u00F3n");
-		lblNewLabel_3.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblNewLabel_3.setBounds(322, 114, 89, 14);
-		contentPane.add(lblNewLabel_3);
+		lblDireccion = new JLabel("Direcci\u00F3n");
+		lblDireccion.setFont(new Font("Tahoma", Font.BOLD, 14));
+		lblDireccion.setBounds(322, 114, 89, 14);
+		contentPane.add(lblDireccion);
 
 		txtDireccion = new JTextField();
 		txtDireccion.setFont(new Font("Tahoma", Font.BOLD, 10));
@@ -162,7 +180,7 @@ public class FrmCliente extends JInternalFrame {
 		contentPane.add(txtDireccion);
 		txtDireccion.setColumns(10);
 
-		JLabel lblEmail = new JLabel("Email");
+		lblEmail = new JLabel("E-Mail");
 		lblEmail.setFont(new Font("Tahoma", Font.BOLD, 14));
 		lblEmail.setBounds(322, 145, 89, 14);
 		contentPane.add(lblEmail);
@@ -181,13 +199,13 @@ public class FrmCliente extends JInternalFrame {
 		tblCliente.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				rellenarformulario();
+				rellenar();
 			}
 		});
 		tblCliente.setSurrendersFocusOnKeystroke(true);
 		scrollPane.setViewportView(tblCliente);
 
-		JButton btnRegistrar = new JButton("Registrar");
+		btnRegistrar = new JButton("Registrar");
 		btnRegistrar.setFont(new Font("Tahoma", Font.BOLD, 12));
 		btnRegistrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -199,7 +217,7 @@ public class FrmCliente extends JInternalFrame {
 		btnRegistrar.setBounds(10, 185, 145, 34);
 		contentPane.add(btnRegistrar);
 
-		JButton btnModificar = new JButton("Modificar");
+		btnModificar = new JButton("Modificar");
 		btnModificar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				modificarDatos();
@@ -211,7 +229,7 @@ public class FrmCliente extends JInternalFrame {
 		btnModificar.setBounds(165, 185, 145, 34);
 		contentPane.add(btnModificar);
 
-		JButton btnEliminar = new JButton("Eliminar");
+		btnEliminar = new JButton("Eliminar");
 		btnEliminar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 
@@ -236,7 +254,7 @@ public class FrmCliente extends JInternalFrame {
 		modelo.addColumn("Email");
 		tblCliente.setModel(modelo);
 
-		JButton btnLimpiar = new JButton("LIMPIAR DATOS");
+		btnLimpiar = new JButton("LIMPIAR DATOS");
 		btnLimpiar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				limpiar();
@@ -271,15 +289,15 @@ public class FrmCliente extends JInternalFrame {
 
 	public void limpiar() {
 		txtCodigo.setText("");
-		txtNombre.setText("");
-		txtApellido.setText("");
-		cboTipoDoc.setSelectedIndex(0);
+		txtNombres.setText("");
+		txtApellidos.setText("");
+		cboTipoDocumento.setSelectedIndex(0);
 		txtNumerodoc.setText("");
 		txtRuc.setText("");
 		txtDireccion.setText("");
 		txtTelefono.setText("");
 		txtEmail.setText("");
-		txtCodigo.requestFocus();
+		txtNombres.requestFocus();
 	}
 
 	public void listadoClientes() {
@@ -287,16 +305,20 @@ public class FrmCliente extends JInternalFrame {
 		ArrayList<Cliente> lista = gc.listado();
 		modelo.setRowCount(0);
 		for (Cliente c : lista) {
-			Object[] fila = { c.codigochar(), c.getNom_cli(), c.getApe_cli(), c.getTip_doc(), c.getNum_doc(),
-					c.getRuc_cli(), c.getDirec_cli(), c.getTelef_cli(), c.getEmail_cli()
-
+			Object[] fila = { c.getCod_cli(), c.getNom_cli(), c.getApe_cli(), tipo_doc_formateado(c.getTip_doc()), c.getNum_doc(),
+					c.getRuc_cli(), c.getDirec_cli(), c.getTelef_cli(), c.getEmail_cli(),c.getUsu_creador_cli()
 			};
 			modelo.addRow(fila);
 		}
-
+	}
+	
+	String tipo_doc_formateado(String ty) {
+		if(ty.equals("dni")) return "DNI";
+		else return "CARNET DE EXTRANJERIA";
 	}
 
 	public void registrarDatos() {
+		int usu_creador_cli;
 		String nom_cli, ape_cli, tip_doc, num_doc, ruc_cli, direc_cli, telef_cli, email_cli;
 		nom_cli = leerNombre();
 		ape_cli = leerApellido();
@@ -306,6 +328,7 @@ public class FrmCliente extends JInternalFrame {
 		direc_cli = leerDireccion();
 		telef_cli = leerTelefono();
 		email_cli = leerEmail();
+		usu_creador_cli = 1;
 		Cliente c = new Cliente();
 		c.setNom_cli(nom_cli);
 		c.setApe_cli(ape_cli);
@@ -315,6 +338,7 @@ public class FrmCliente extends JInternalFrame {
 		c.setDirec_cli(direc_cli);
 		c.setTelef_cli(telef_cli);
 		c.setEmail_cli(email_cli);
+		c.setUsu_creador_cli(usu_creador_cli);
 		GestionCliente gc = new GestionCliente();
 		int ok = gc.registrar(c);
 		if (ok == 0) {
@@ -329,18 +353,12 @@ public class FrmCliente extends JInternalFrame {
 		int cod_cli = leerCodigo();
 		Cliente c = new Cliente();
 		c.setCod_cli(cod_cli);
-
-		if (cod_cli >= 1) {
-			GestionCliente gc = new GestionCliente();
-			int ok = gc.eliminar(c);
-			if (ok == 0) {
-				JOptionPane.showMessageDialog(null, FrmPrincipal.aviso6);
-			} else {
-				JOptionPane.showMessageDialog(null, FrmPrincipal.aviso3);
-			}
-
+		GestionCliente gc = new GestionCliente();
+		int ok = gc.eliminar(c);
+		if (ok == 0) {
+			JOptionPane.showMessageDialog(null, FrmPrincipal.aviso6);
 		} else {
-			JOptionPane.showMessageDialog(null, aviso1);
+			JOptionPane.showMessageDialog(null, FrmPrincipal.aviso3);
 		}
 
 	}
@@ -368,42 +386,38 @@ public class FrmCliente extends JInternalFrame {
 		c.setDirec_cli(direc_cli);
 		c.setTelef_cli(telef_cli);
 		c.setEmail_cli(email_cli);
-		if (cod_cli >= 1) {
-			GestionCliente gc = new GestionCliente();
-			int ok = gc.actualizar(c);
-			if (ok == 0) {
-				JOptionPane.showMessageDialog(null, FrmPrincipal.aviso4);
-			} else {
-				JOptionPane.showMessageDialog(null, FrmPrincipal.aviso2);
-			}
-
+		GestionCliente gc = new GestionCliente();
+		int ok = gc.actualizar(c);
+		if (ok == 0) {
+			JOptionPane.showMessageDialog(null, FrmPrincipal.aviso4);
 		} else {
-			JOptionPane.showMessageDialog(null, aviso1);
+			JOptionPane.showMessageDialog(null, FrmPrincipal.aviso2);
 		}
+
 	}
 
 	int leerCodigo() {
-		int cod = -1;
+		int cod = 0;
 		try {
 			cod = Integer.parseInt(txtCodigo.getText().trim());
 		} catch (NumberFormatException e) {
-			JOptionPane.showMessageDialog(null, aviso1);
+			JOptionPane.showMessageDialog(null, e.getMessage());
 		}
 		return cod;
 
 	}
 
 	String leerNombre() {
-		return txtNombre.getText();
+		return txtNombres.getText();
 	}
 
 	String leerApellido() {
-		return txtApellido.getText();
+		return txtApellidos.getText();
 	}
 
 	String leerTipoDocumento() {
 		int tp = 0;
-		tp = cboTipoDoc.getSelectedIndex();
+		tp = cboTipoDocumento.getSelectedIndex();
 		switch (tp) {
 		case 2:
 			return "cex";
@@ -462,13 +476,12 @@ public class FrmCliente extends JInternalFrame {
 		}
 	}
 
-	void rellenarformulario() {
+	void rellenar() {
 		int fila = tblCliente.getSelectedRow();
-
 		txtCodigo.setText(tblCliente.getValueAt(fila, 0).toString());
-		txtNombre.setText(tblCliente.getValueAt(fila, 1).toString());
-		txtApellido.setText(tblCliente.getValueAt(fila, 2).toString());
-		cboTipoDoc.setSelectedItem(tblCliente.getValueAt(fila, 3));
+		txtNombres.setText(tblCliente.getValueAt(fila, 1).toString());
+		txtApellidos.setText(tblCliente.getValueAt(fila, 2).toString());
+		cboTipoDocumento.setSelectedItem(tblCliente.getValueAt(fila, 3).toString());
 		txtNumerodoc.setText(tblCliente.getValueAt(fila, 4).toString());
 		txtRuc.setText(tblCliente.getValueAt(fila, 5).toString());
 		txtDireccion.setText(tblCliente.getValueAt(fila, 6).toString());
