@@ -35,9 +35,8 @@ public class FrmPrincipal extends JFrame {
 	public static String aviso4 = "No se puede registrar. Compruebe datos";
 	public static String aviso5 = "No se puede modificar. Compruebe datos";
 	public static String aviso6 = "No se puede eliminar. Compruebe datos";
-	private JMenuItem mntmReporte3;
-	private JMenuItem mntmReporte1;
 	private JMenuItem mntmReporte2;
+	private JMenuItem mntmReporte1;
 	private JMenuItem mntmCliente;
 	private JMenuItem mntmComprobantePago;
 	private JMenuItem mntmEmpresaRemitente;
@@ -191,7 +190,7 @@ public class FrmPrincipal extends JFrame {
 		mnReportes.setIcon(new ImageIcon(FrmPrincipal.class.getResource("/iconos/reporte.png")));
 		mbPrincipal.add(mnReportes);
 
-		mntmReporte1 = new JMenuItem("Reporte de comprobantes por fecha");
+		mntmReporte1 = new JMenuItem("Reporte de Comprobantes");
 		mntmReporte1.setIcon(new ImageIcon(FrmPrincipal.class.getResource("/iconos/reporte.png")));
 		mntmReporte1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -206,10 +205,10 @@ public class FrmPrincipal extends JFrame {
 		});
 		mnReportes.add(mntmReporte1);
 
-		mntmReporte2 = new JMenuItem("Reporte por Documento");
+		mntmReporte2 = new JMenuItem("Reporte de Productos");
 		mntmReporte2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				FrmReporte2 r = new FrmReporte2();
+				FrmReporteProducto r = new FrmReporteProducto();
 				escritorio.add(r);
 				r.setVisible(true);
 				Dimension desktopSize = escritorio.getSize();
@@ -219,25 +218,8 @@ public class FrmPrincipal extends JFrame {
 
 			}
 		});
-
-		mntmReporte3 = new JMenuItem("Reporte de Producto en Stock");
-		mntmReporte3.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				FrmReporte3 r = new FrmReporte3();
-				escritorio.add(r);
-				r.setVisible(true);
-				Dimension desktopSize = escritorio.getSize();
-				Dimension FrameSize = r.getSize();
-				r.setLocation((desktopSize.width - FrameSize.width) / 2, (desktopSize.height - FrameSize.height) / 2);
-				r.show();
-
-			}
-		});
-
 		mntmReporte2.setIcon(new ImageIcon(FrmPrincipal.class.getResource("/iconos/reporte.png")));
 		mnReportes.add(mntmReporte2);
-		mntmReporte3.setIcon(new ImageIcon(FrmPrincipal.class.getResource("/iconos/reporte.png")));
-		mnReportes.add(mntmReporte3);
 
 		mnHoraDelDia = new JMenu("00:00:00");
 		mbPrincipal.add(mnHoraDelDia);

@@ -193,8 +193,7 @@ public class FrmReporteComprobante extends JInternalFrame {
 		SimpleDateFormat sdf_fecha_larga = new SimpleDateFormat("'Lima,' dd 'de' MMMM 'del' y, HH:mm:ss");	
 		String tipo_formateado = cboTipo.getSelectedItem().toString();
 		String fec_ini_formateado = txtInicio.getDate()==null?"":sdf_fecha_corta.format(txtInicio.getDate());
-		String fec_fin_formateado = txtFin.getDate()==null?"":sdf_fecha_corta.format(txtFin.getDate());
-		
+		String fec_fin_formateado = txtFin.getDate()==null?"":sdf_fecha_corta.format(txtFin.getDate());	
 		
 		String tipo = leertipo();
 		String fec_ini = leerfec_ini();
@@ -234,8 +233,8 @@ public class FrmReporteComprobante extends JInternalFrame {
 					doc.add(new Paragraph("Tipo de comprobante: " + tipo_formateado + ", desde " + fec_ini_formateado + " hasta " + fec_fin_formateado));
 				}
 				doc.add(new Paragraph(" "));
+				
 				PdfPTable tabla = new PdfPTable(4);
-
 				tabla.addCell("Nro. Comp");
 				tabla.addCell("Fecha Registro");
 				tabla.addCell("Creador");
@@ -249,7 +248,6 @@ public class FrmReporteComprobante extends JInternalFrame {
 				}
 				doc.add(tabla);
 				Date hoy = new Date();
-
 				doc.add(new Paragraph(sdf_fecha_larga.format(hoy)));
 
 				/* fin del docuemento */
