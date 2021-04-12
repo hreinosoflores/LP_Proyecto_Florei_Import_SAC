@@ -37,12 +37,24 @@ public class FrmProducto extends JInternalFrame {
 	private JTextField txtDescripcion;
 	private JTextField txtMarca;
 	private JTextField txtStock;
+	private JTextField txtPrecioUnit;
+	private JTextField txtPesoUnit;
 	private JScrollPane scrollPane;
 	private JTable tblProducto;
 	private DefaultTableModel modelo;
-	String aviso1 = "Ingrese el valor numerico del codigo. Ejm: PR0025 valor numerico->25";
-	private JTextField txtPrecio;
-	private JComboBox cboUniMed;
+	private JComboBox<String> cboUniMed;
+	private JLabel lblCodigo;
+	private JLabel lblDescripcion;
+	private JLabel lblStock;
+	private JLabel lblMarca;
+	private JLabel lblUnidadDeMedida;
+	private JLabel lblPrecioUnit;
+	private JLabel lblPesoUnit;
+	private JButton btnRegistrar;
+	private JButton btnModificar;
+	private JButton btnEliminar;
+	private JButton btnLimpiar;
+
 
 	/**
 	 * Launch the application.
@@ -75,34 +87,35 @@ public class FrmProducto extends JInternalFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
-		JLabel lblNewLabel = new JLabel("C\u00F3digo");
-		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblNewLabel.setBounds(10, 16, 65, 20);
-		contentPane.add(lblNewLabel);
+		lblCodigo = new JLabel("C\u00F3digo");
+		lblCodigo.setFont(new Font("Tahoma", Font.BOLD, 14));
+		lblCodigo.setBounds(10, 16, 65, 20);
+		contentPane.add(lblCodigo);
 
-		JLabel lblDescripcin = new JLabel("Descripci\u00F3n");
-		lblDescripcin.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblDescripcin.setBounds(10, 76, 106, 20);
-		contentPane.add(lblDescripcin);
+		lblDescripcion = new JLabel("Descripci\u00F3n");
+		lblDescripcion.setFont(new Font("Tahoma", Font.BOLD, 14));
+		lblDescripcion.setBounds(10, 76, 106, 20);
+		contentPane.add(lblDescripcion);
 
-		JLabel lblStock = new JLabel("Stock");
+		lblStock = new JLabel("Stock");
 		lblStock.setFont(new Font("Tahoma", Font.BOLD, 14));
 		lblStock.setBounds(10, 138, 65, 14);
 		contentPane.add(lblStock);
 
-		JLabel lblMarca = new JLabel("Marca");
+		lblMarca = new JLabel("Marca");
 		lblMarca.setFont(new Font("Tahoma", Font.BOLD, 14));
 		lblMarca.setBounds(10, 46, 116, 14);
 		contentPane.add(lblMarca);
 
-		JLabel lblUnidadDeMedida = new JLabel("Unidad de medida");
+		lblUnidadDeMedida = new JLabel("Unidad de medida");
 		lblUnidadDeMedida.setFont(new Font("Tahoma", Font.BOLD, 14));
 		lblUnidadDeMedida.setBounds(10, 107, 139, 14);
 		contentPane.add(lblUnidadDeMedida);
 
 		txtCodigo = new JTextField();
+		txtCodigo.setEditable(false);
 		txtCodigo.setFont(new Font("Tahoma", Font.BOLD, 10));
-		txtCodigo.setBounds(146, 16, 86, 20);
+		txtCodigo.setBounds(146, 16, 116, 20);
 		contentPane.add(txtCodigo);
 		txtCodigo.setColumns(10);
 
@@ -115,7 +128,7 @@ public class FrmProducto extends JInternalFrame {
 		txtStock = new JTextField();
 		txtStock.setFont(new Font("Tahoma", Font.BOLD, 10));
 		txtStock.setColumns(10);
-		txtStock.setBounds(146, 138, 86, 20);
+		txtStock.setBounds(146, 138, 167, 20);
 		contentPane.add(txtStock);
 
 		txtMarca = new JTextField();
@@ -125,19 +138,19 @@ public class FrmProducto extends JInternalFrame {
 		contentPane.add(txtMarca);
 
 		scrollPane = new JScrollPane();
-		scrollPane.setBounds(10, 282, 604, 247);
+		scrollPane.setBounds(10, 295, 604, 234);
 		contentPane.add(scrollPane);
 
 		tblProducto = new JTable();
 		tblProducto.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				rellenarPro();
+				rellenar();
 			}
 		});
 		scrollPane.setViewportView(tblProducto);
 
-		JButton btnRegistrar = new JButton("Registrar");
+		btnRegistrar = new JButton("Registrar");
 		btnRegistrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				registrar();
@@ -147,10 +160,10 @@ public class FrmProducto extends JInternalFrame {
 		});
 		btnRegistrar.setFont(new Font("Tahoma", Font.BOLD, 12));
 		btnRegistrar.setIcon(new ImageIcon(FrmProducto.class.getResource("/iconos/registrar.png")));
-		btnRegistrar.setBounds(10, 218, 145, 41);
+		btnRegistrar.setBounds(10, 243, 145, 41);
 		contentPane.add(btnRegistrar);
 
-		JButton btnModificar = new JButton("Modificar");
+		btnModificar = new JButton("Modificar");
 		btnModificar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				Actualizar();
@@ -159,10 +172,10 @@ public class FrmProducto extends JInternalFrame {
 		});
 		btnModificar.setFont(new Font("Tahoma", Font.BOLD, 12));
 		btnModificar.setIcon(new ImageIcon(FrmProducto.class.getResource("/iconos/modificar.png")));
-		btnModificar.setBounds(165, 218, 145, 41);
+		btnModificar.setBounds(165, 243, 145, 41);
 		contentPane.add(btnModificar);
 
-		JButton btnEliminar = new JButton("Eliminar");
+		btnEliminar = new JButton("Eliminar");
 		btnEliminar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				Eliminar();
@@ -171,7 +184,7 @@ public class FrmProducto extends JInternalFrame {
 		});
 		btnEliminar.setFont(new Font("Tahoma", Font.BOLD, 12));
 		btnEliminar.setIcon(new ImageIcon(FrmProducto.class.getResource("/iconos/eliminar.png")));
-		btnEliminar.setBounds(320, 218, 145, 41);
+		btnEliminar.setBounds(320, 243, 145, 41);
 		contentPane.add(btnEliminar);
 
 		modelo = new DefaultTableModel();
@@ -180,11 +193,12 @@ public class FrmProducto extends JInternalFrame {
 		modelo.addColumn("Descripción");
 		modelo.addColumn("Unidad Medida");
 		modelo.addColumn("Stock");
-		modelo.addColumn("Precio Unitario");
+		modelo.addColumn("Precio (S/.)");
+		modelo.addColumn("Peso (Kg.)");
 
 		tblProducto.setModel(modelo);
 
-		JButton btnLimpiar = new JButton("LIMPIAR DATOS");
+		btnLimpiar = new JButton("LIMPIAR DATOS");
 		btnLimpiar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				txtCodigo.setText("");
@@ -192,28 +206,41 @@ public class FrmProducto extends JInternalFrame {
 				txtDescripcion.setText("");
 				cboUniMed.setSelectedIndex(0);
 				txtStock.setText("");
-				txtPrecio.setText("");
-				txtCodigo.requestFocus();
+				txtPrecioUnit.setText("");
+				txtPesoUnit.setText("");
+				txtMarca.requestFocus();
 			}
 		});
 		btnLimpiar.setBounds(399, 9, 154, 33);
 		contentPane.add(btnLimpiar);
 
-		JLabel lblPrecio = new JLabel("Precio unidad");
-		lblPrecio.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblPrecio.setBounds(10, 169, 139, 14);
-		contentPane.add(lblPrecio);
+		lblPrecioUnit = new JLabel("Precio (S/.)");
+		lblPrecioUnit.setFont(new Font("Tahoma", Font.BOLD, 14));
+		lblPrecioUnit.setBounds(10, 169, 139, 14);
+		contentPane.add(lblPrecioUnit);
 
-		txtPrecio = new JTextField();
-		txtPrecio.setFont(new Font("Tahoma", Font.BOLD, 10));
-		txtPrecio.setColumns(10);
-		txtPrecio.setBounds(146, 169, 86, 20);
-		contentPane.add(txtPrecio);
+		txtPrecioUnit = new JTextField();
+		txtPrecioUnit.setFont(new Font("Tahoma", Font.BOLD, 10));
+		txtPrecioUnit.setColumns(10);
+		txtPrecioUnit.setBounds(146, 169, 167, 20);
+		contentPane.add(txtPrecioUnit);
 
-		cboUniMed = new JComboBox();
-		cboUniMed.setModel(new DefaultComboBoxModel(new String[] { "Seleccione", "Unidad", "Caja" }));
-		cboUniMed.setBounds(146, 106, 139, 20);
+		cboUniMed = new JComboBox<String>();
+		cboUniMed.setModel(new DefaultComboBoxModel<String>(new String[] {"Seleccione", "Unidad", "Caja"}));
+		cboUniMed.setFont(new Font("Tahoma", Font.BOLD, 10));
+		cboUniMed.setBounds(146, 106, 167, 20);
 		contentPane.add(cboUniMed);
+		
+		lblPesoUnit = new JLabel("Peso (Kg.)");
+		lblPesoUnit.setFont(new Font("Tahoma", Font.BOLD, 14));
+		lblPesoUnit.setBounds(10, 197, 139, 20);
+		contentPane.add(lblPesoUnit);
+		
+		txtPesoUnit = new JTextField();
+		txtPesoUnit.setFont(new Font("Tahoma", Font.BOLD, 10));
+		txtPesoUnit.setColumns(10);
+		txtPesoUnit.setBounds(146, 197, 167, 20);
+		contentPane.add(txtPesoUnit);
 		ajustarAnchoColumnas();
 		listadoProd();
 	}
@@ -231,33 +258,38 @@ public class FrmProducto extends JInternalFrame {
 		tcm.getColumn(4).setPreferredWidth(anchoColumna(8));
 	}
 
-	void rellenarPro() {
+	void rellenar() {
 		int fila = tblProducto.getSelectedRow();
 		txtCodigo.setText(tblProducto.getValueAt(fila, 0).toString());
 		txtMarca.setText(tblProducto.getValueAt(fila, 1).toString());
 		txtDescripcion.setText(tblProducto.getValueAt(fila, 2).toString());
-		cboUniMed.setSelectedIndex(0);
+		cboUniMed.setSelectedItem(tblProducto.getValueAt(fila, 3).toString());
 		txtStock.setText(tblProducto.getValueAt(fila, 4).toString());
-		txtPrecio.setText(tblProducto.getValueAt(fila, 5).toString());
+		txtPrecioUnit.setText(tblProducto.getValueAt(fila, 5).toString());
+		txtPesoUnit.setText(tblProducto.getValueAt(fila, 6).toString());
 
 	}
 
 	void registrar() {
-		String marca, Descripcion, UniMedi;
-		int Stock;
-		double pre_unit;
+		String marca, desc_prod, uni_med_prod;
+		int usu_creador_prod,stk_prod;
+		double pre_unit,pes_unit;
 		marca = leerMarca();
-		Descripcion = leerDescripcion();
-		UniMedi = leerUnidadMedida();
-		Stock = leerStock();
+		desc_prod = leerDescripcion();
+		uni_med_prod = leerUnidadMedida();
+		stk_prod = leerStock();
 		pre_unit = leerPrecioUnit();
+		pes_unit = leerPesoUnit();
+		usu_creador_prod=1;
 
 		Producto p = new Producto();
 		p.setMarca(marca);
-		p.setDesc_prod(Descripcion);
-		p.setUni_med_prod(UniMedi);
-		p.setStk_prod(Stock);
+		p.setDesc_prod(desc_prod);
+		p.setUni_med_prod(uni_med_prod);
+		p.setStk_prod(stk_prod);
 		p.setPre_unit(pre_unit);
+		p.setPes_unit(pes_unit);
+		p.setUsu_creador_prod(usu_creador_prod);
 
 		GestionProducto gp = new GestionProducto();
 		int ok = gp.registrar(p);
@@ -270,36 +302,32 @@ public class FrmProducto extends JInternalFrame {
 	}
 
 	void Actualizar() {
-		String marca, Descripcion, UniMedi;
-		int Stock, Codigo;
-		double pre_unit;
-		Codigo = leerCodigo();
+		String marca, desc_prod, uni_med_prod;
+		int cod_prod,stk_prod;
+		double pre_unit,pes_unit;
+		cod_prod = leerCodigo();
 		marca = leerMarca();
-		Descripcion = leerDescripcion();
-		UniMedi = leerUnidadMedida();
-		Stock = leerStock();
+		desc_prod = leerDescripcion();
+		uni_med_prod = leerUnidadMedida();
+		stk_prod = leerStock();
 		pre_unit = leerPrecioUnit();
+		pes_unit = leerPesoUnit();
 
 		Producto p = new Producto();
-		p.setCod_prod(Codigo);
+		p.setCod_prod(cod_prod);
 		p.setMarca(marca);
-		p.setDesc_prod(Descripcion);
-		p.setUni_med_prod(UniMedi);
-		p.setStk_prod(Stock);
+		p.setDesc_prod(desc_prod);
+		p.setUni_med_prod(uni_med_prod);
+		p.setStk_prod(stk_prod);
 		p.setPre_unit(pre_unit);
+		p.setPes_unit(pes_unit);
 		GestionProducto gp = new GestionProducto();
-		if (Codigo >= 1) {
-
 			int ok = gp.actualizar(p);
 			if (ok == 0) {
 				JOptionPane.showMessageDialog(null, FrmPrincipal.aviso5);
 			} else {
 				JOptionPane.showMessageDialog(null, FrmPrincipal.aviso2);
 			}
-		} else {
-			JOptionPane.showMessageDialog(null, aviso1);
-
-		}
 
 	}
 
@@ -308,7 +336,7 @@ public class FrmProducto extends JInternalFrame {
 		int cod_prod = leerCodigo();
 		Producto p = new Producto();
 		p.setCod_prod(cod_prod);
-		if (cod_prod >= 1) {
+
 			GestionProducto gc = new GestionProducto();
 			int ok = gc.eliminar(p);
 			if (ok == 0) {
@@ -317,10 +345,6 @@ public class FrmProducto extends JInternalFrame {
 				JOptionPane.showMessageDialog(null, FrmPrincipal.aviso3);
 			}
 
-		} else {
-			JOptionPane.showMessageDialog(null, aviso1);
-		}
-
 	}
 
 	void listadoProd() {
@@ -328,19 +352,24 @@ public class FrmProducto extends JInternalFrame {
 		ArrayList<Producto> lista = gp.listado();
 		modelo.setRowCount(0);
 		for (Producto p : lista) {
-			Object[] datos = { p.codigochar(), p.getMarca(), p.getDesc_prod(), p.getUni_med_prod(), p.getStk_prod(),
-					p.getPre_unit() };
+			Object[] datos = { p.getCod_prod(), p.getMarca(), p.getDesc_prod(), uni_med_formateado(p.getUni_med_prod()), p.getStk_prod(),
+					p.getPre_unit(),p.getPes_unit(),p.getUsu_creador_prod() };
 			modelo.addRow(datos);
 		}
 
 	}
-
+	
+	String uni_med_formateado(String u) {
+		if(u.equals("u")) return "Unidad";
+		else return "Caja";
+	}
+	
 	int leerCodigo() {
-		int c = -1;
+		int c = 0;
 		try {
 			c = Integer.parseInt(txtCodigo.getText().trim());
 		} catch (NumberFormatException e) {
-			JOptionPane.showMessageDialog(null, aviso1);
+			JOptionPane.showMessageDialog(null, e.getMessage());
 		}
 		return c;
 	}
@@ -354,19 +383,18 @@ public class FrmProducto extends JInternalFrame {
 	}
 
 	String leerUnidadMedida() {
-
 		int tp = 0;
 		tp = cboUniMed.getSelectedIndex();
 		switch (tp) {
 		case 2:
-			return "C";
+			return "c";
 		default:
-			return "U";
+			return "u";
 		}
 	}
 
 	int leerStock() {
-		int c = -1;
+		int c = 0;
 		try {
 			c = Integer.parseInt(txtStock.getText().trim());
 		} catch (NumberFormatException e) {
@@ -377,13 +405,22 @@ public class FrmProducto extends JInternalFrame {
 	}
 
 	double leerPrecioUnit() {
-		double c = -1;
+		double c = 0;
 		try {
-			c = Double.parseDouble(txtPrecio.getText().trim());
+			c = Double.parseDouble(txtPrecioUnit.getText().trim());
 		} catch (NumberFormatException e) {
-			JOptionPane.showMessageDialog(null, "Ingresar un valor numerico positivo en Precio Unidad");
+			JOptionPane.showMessageDialog(null, "Ingresar un valor numerico positivo en Precio");
 		}
 		return c;
 	}
-
+	
+	double leerPesoUnit() {
+		double c = 0;
+		try {
+			c = Double.parseDouble(txtPesoUnit.getText().trim());
+		} catch (NumberFormatException e) {
+			JOptionPane.showMessageDialog(null, "Ingresar un valor numerico positivo en Peso");
+		}
+		return c;
+	}
 }

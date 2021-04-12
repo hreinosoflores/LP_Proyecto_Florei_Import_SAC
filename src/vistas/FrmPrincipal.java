@@ -32,9 +32,9 @@ public class FrmPrincipal extends JFrame {
 	public static String aviso1 = "Registro correcto";
 	public static String aviso2 = "Actualización correcta";
 	public static String aviso3 = "Eliminación correcta";
-	public static String aviso4 = "No se puedo registrar. Compruebe datos";
-	public static String aviso5 = "No se puedo modificar. Compruebe datos";
-	public static String aviso6 = "No se puedo eliminar. Compruebe datos";
+	public static String aviso4 = "No se puede registrar. Compruebe datos";
+	public static String aviso5 = "No se puede modificar. Compruebe datos";
+	public static String aviso6 = "No se puede eliminar. Compruebe datos";
 	private JMenuItem mntmReporte3;
 	private JMenuItem mntmReporte1;
 	private JMenuItem mntmReporte2;

@@ -61,9 +61,10 @@ public class GestionProducto implements ProductoInterface {
 
 		try {
 			con = MySQLConexion.getConexion();
+			con.setAutoCommit(false);
 			String sql = "INSERT INTO `florei_import`.`producto`\r\n" + "(`marca`,\r\n" + "`desc_prod`,\r\n"
 					+ "`uni_med_prod`,\r\n" + "`stk_prod`,\r\n" + "`pre_unit`,\r\n" + "`pes_unit`,\r\n"
-					+ "`usu_creador_prod`)\r\n" + "VALUES\r\n" + "(?,?,?,?,?,?,?);";
+					+ "`usu_creador_prod`)\r\n" + "VALUES\r\n" + "(?,?,?,?,?,?,?)";
 			pst = con.prepareStatement(sql);
 			pst.setString(1, p.getMarca());
 			pst.setString(2, p.getDesc_prod());
@@ -76,9 +77,7 @@ public class GestionProducto implements ProductoInterface {
 
 			con.commit();
 		} catch (Exception x) {
-
 			try {
-
 				con.rollback();
 				JOptionPane.showMessageDialog(null, "Error en la sentencia: " + x.getMessage());
 
@@ -108,12 +107,21 @@ public class GestionProducto implements ProductoInterface {
 		PreparedStatement pst = null;
 		try {
 			con = MySQLConexion.getConexion();
+			con.setAutoCommit(false);
 			String sql = "delete from Producto where Cod_prod = ?";
 			pst = con.prepareStatement(sql);
 			pst.setInt(1, p.getCod_prod());
 			rs = pst.executeUpdate();
+			con.commit();
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog(null, "Error en la sentencia: " + e.getMessage());
+			try {
+				con.rollback();
+				JOptionPane.showMessageDialog(null, "Error en la sentencia: " + e.getMessage());
+
+			} catch (Exception ex) {
+
+				JOptionPane.showMessageDialog(null, "Error en el rollback");
+			}
 		} finally {
 			try {
 				if (pst != null)
@@ -134,22 +142,28 @@ public class GestionProducto implements ProductoInterface {
 		PreparedStatement pst = null;
 		try {
 			con = MySQLConexion.getConexion();
+			con.setAutoCommit(false);
 			String sql = "UPDATE `florei_import`.`producto`\r\n" + "SET\r\n" + "`marca` = ?,\r\n"
 					+ "`desc_prod` = ?,\r\n" + "`uni_med_prod` = ?,\r\n" + "`stk_prod` = ?,\r\n" + "`pre_unit` = ?,\r\n"
-					+ "`pes_unit` = ?\r\n" + "WHERE `cod_prod` = ?;";
+					+ "`pes_unit` = ?\r\n" + "WHERE `cod_prod` = ?";
 			pst = con.prepareStatement(sql);
 			pst.setString(1, p.getMarca());
 			pst.setString(2, p.getDesc_prod());
 			pst.setString(3, p.getUni_med_prod());
 			pst.setInt(4, p.getStk_prod());
 			pst.setDouble(5, p.getPre_unit());
-			pst.setDouble(5, p.getPes_unit());
-			pst.setInt(6, p.getCod_prod());
+			pst.setDouble(6, p.getPes_unit());
+			pst.setInt(7, p.getCod_prod());
 			rs = pst.executeUpdate();
-
+			con.commit();
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog(null, "Error en la sentencia: " + e.getMessage());
+			try {
+				con.rollback();
+				JOptionPane.showMessageDialog(null, "Error en la sentencia: " + e.getMessage());
 
+			} catch (Exception ex) {
+				JOptionPane.showMessageDialog(null, "Error en el rollback");
+			}
 		} finally {
 			try {
 				if (pst != null)

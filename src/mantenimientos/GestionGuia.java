@@ -138,7 +138,7 @@ public class GestionGuia implements GuiaInterface {
 		try {
 			con = MySQLConexion.getConexion();
 			pst = con.prepareStatement("update guia set fec_trasl=?, direc_part=?," + "direc_lleg=?, motiv_trasl=?,"
-					+ "cod_cli=?," + "cod_trans=?," + " cod_emp=?" + " where num_gui=? ");
+					+ "cod_cli=?," + "cod_trans=?," + " cod_emp=?" + " where num_gui=?");
 
 			pst.setTimestamp(1, g.getFec_trasl());
 			pst.setString(2, g.getDirec_part());

@@ -231,7 +231,7 @@ public class FrmTransportista extends JInternalFrame {
 				txtTelefono.setText("");
 				txtRuc.setText("");
 				txtLicencia.setText("");
-				txtCodigo.requestFocus();
+				txtNombre.requestFocus();
 			}
 		});
 		btnLimpiar.setBounds(308, 10, 154, 33);
