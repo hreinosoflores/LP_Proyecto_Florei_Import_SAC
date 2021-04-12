@@ -33,22 +33,28 @@ import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 import com.toedter.calendar.JDateChooser;
-
 import mantenimientos.GestionReporteComprobante;
-import modelos.ReporteProducto;
+import modelos.ReporteComprobante;
 
-public class FrmReporte1 extends JInternalFrame {
+public class FrmReporteComprobante extends JInternalFrame {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-	private JComboBox cboTipo;
+	private JComboBox<String> cboTipo;
 	private JDateChooser txtInicio;
 	private JDateChooser txtFin;
 	private JTable tblReporte;
 	private DefaultTableModel modelo;
+	private JLabel lblTipo;
+	private JLabel lblFechaInicio;
+	private JLabel lblFechaFin;
+	private JButton btnPdf;
+	private JButton btnLimpiar;
+	private JButton btnMostrar;
+	private JScrollPane scrollPane;
 
 	/**
 	 * Launch the application.
@@ -57,7 +63,7 @@ public class FrmReporte1 extends JInternalFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					FrmReporte1 frame = new FrmReporte1();
+					FrmReporteComprobante frame = new FrmReporteComprobante();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -69,8 +75,8 @@ public class FrmReporte1 extends JInternalFrame {
 	/**
 	 * Create the frame.
 	 */
-	public FrmReporte1() {
-		setFrameIcon(new ImageIcon(FrmReporte1.class.getResource("/iconos/reporte.png")));
+	public FrmReporteComprobante() {
+		setFrameIcon(new ImageIcon(FrmReporteComprobante.class.getResource("/iconos/reporte.png")));
 		setMaximizable(true);
 		setIconifiable(true);
 		setClosable(true);
@@ -81,68 +87,71 @@ public class FrmReporte1 extends JInternalFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
-		JLabel lblTipo = new JLabel("Tipo");
+		lblTipo = new JLabel("Tipo");
 		lblTipo.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblTipo.setBounds(10, 24, 64, 14);
+		lblTipo.setBounds(27, 39, 101, 20);
 		contentPane.add(lblTipo);
 
-		cboTipo = new JComboBox();
-		cboTipo.setModel(new DefaultComboBoxModel(new String[] { "Seleccione", "Boleta", "Factura" }));
+		cboTipo = new JComboBox<String>();
+		cboTipo.setModel(new DefaultComboBoxModel<String>(new String[] { "Seleccione", "Boleta", "Factura" }));
 		cboTipo.setFont(new Font("Tahoma", Font.BOLD, 10));
-		cboTipo.setBounds(84, 18, 144, 20);
+		cboTipo.setBounds(138, 39, 180, 20);
 		contentPane.add(cboTipo);
 
-		JLabel lblFechaDeInicio = new JLabel("Fecha de Inicio");
-		lblFechaDeInicio.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblFechaDeInicio.setBounds(10, 70, 118, 14);
-		contentPane.add(lblFechaDeInicio);
+		lblFechaInicio = new JLabel("Fecha Inicio");
+		lblFechaInicio.setFont(new Font("Tahoma", Font.BOLD, 14));
+		lblFechaInicio.setBounds(27, 110, 101, 20);
+		contentPane.add(lblFechaInicio);
 
-		JLabel lblFechaFin = new JLabel("Fecha de Fin");
+		lblFechaFin = new JLabel("Fecha Fin");
 		lblFechaFin.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblFechaFin.setBounds(265, 70, 101, 14);
+		lblFechaFin.setBounds(27, 183, 101, 20);
 		contentPane.add(lblFechaFin);
 
 		txtInicio = new JDateChooser();
-		txtInicio.setBounds(127, 64, 101, 20);
+		txtInicio.setBounds(138, 110, 180, 20);
 		contentPane.add(txtInicio);
 
 		txtFin = new JDateChooser();
-		txtFin.setBounds(376, 64, 101, 20);
+		txtFin.setBounds(138, 183, 180, 20);
 		contentPane.add(txtFin);
 
-		JButton btnPdf = new JButton("CREAR PDF");
+		btnPdf = new JButton("CREAR PDF");
 		btnPdf.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				GenerarPDF();
+				limpiar();
+				listar();
 			}
 		});
 		btnPdf.setFont(new Font("Tahoma", Font.BOLD, 12));
-		btnPdf.setIcon(new ImageIcon(FrmReporte1.class.getResource("/iconos/imprimir.png")));
-		btnPdf.setBounds(237, 161, 164, 35);
+		btnPdf.setIcon(new ImageIcon(FrmReporteComprobante.class.getResource("/iconos/imprimir.png")));
+		btnPdf.setBounds(420, 101, 176, 35);
 		contentPane.add(btnPdf);
 
-		JButton btnLimpiar = new JButton("LIMPIAR DATOS");
+		btnLimpiar = new JButton("LIMPIAR DATOS");
+		btnLimpiar.setFont(new Font("Tahoma", Font.BOLD, 12));
 		btnLimpiar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				limpiar();
-
+				listar();
 			}
 		});
-		btnLimpiar.setBounds(265, 15, 136, 37);
+		btnLimpiar.setBounds(420, 173, 176, 37);
 		contentPane.add(btnLimpiar);
 
-		JButton btnMostrar = new JButton("MOSTRAR ");
+		btnMostrar = new JButton("MOSTRAR ");
+		btnMostrar.setFont(new Font("Tahoma", Font.BOLD, 12));
 		btnMostrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				listar();
-
 			}
 		});
-		btnMostrar.setIcon(new ImageIcon(FrmReporte1.class.getResource("/iconos/reporte.png")));
-		btnMostrar.setBounds(29, 162, 176, 35);
+		btnMostrar.setIcon(new ImageIcon(FrmReporteComprobante.class.getResource("/iconos/reporte.png")));
+		btnMostrar.setBounds(420, 24, 176, 35);
 		contentPane.add(btnMostrar);
 
-		JScrollPane scrollPane = new JScrollPane();
+		scrollPane = new JScrollPane();
 		scrollPane.setBounds(27, 220, 569, 239);
 		contentPane.add(scrollPane);
 
@@ -150,14 +159,12 @@ public class FrmReporte1 extends JInternalFrame {
 		scrollPane.setViewportView(tblReporte);
 
 		modelo = new DefaultTableModel();
-		modelo.addColumn("Nº Comprobante");
-		modelo.addColumn("Registro en el sistema");
-		modelo.addColumn("Nombre Cliente");
-		modelo.addColumn("Producto");
-		modelo.addColumn("Cantidad");
-		modelo.addColumn("Monto");
+		modelo.addColumn("Nro. Comp");
+		modelo.addColumn("Fecha Registro");
+		modelo.addColumn("Creador");
+		modelo.addColumn("Cliente");
 		tblReporte.setModel(modelo);
-		MostrarFecha();
+
 	}
 
 	void listar() {
@@ -166,38 +173,34 @@ public class FrmReporte1 extends JInternalFrame {
 		String fec_fin = leerfec_fin();
 
 		GestionReporteComprobante gr = new GestionReporteComprobante();
-		ArrayList<ReporteProducto> lista = gr.listado(tipo, fec_ini, fec_fin);
-		if (lista.isEmpty()) {
-			JOptionPane.showMessageDialog(null, "No hay datos para mostrar");
-		} else {
-			modelo.setRowCount(0);
-			for (ReporteProducto r : lista) {
-				Object[] fila = { r.getCodigo(), r.getRegistro(), r.getCliente(), r.getProducto(), r.getCant(),
-						r.getPago() };
-				modelo.addRow(fila);
-			}
+		ArrayList<ReporteComprobante> lista = gr.listado(tipo, fec_ini, fec_fin);
+		modelo.setRowCount(0);
+		for (ReporteComprobante r : lista) {
+			Object[] fila = { r.getCodigo(), r.getFecharegistro(), r.getCreador(), r.getCliente() };
+			modelo.addRow(fila);
 		}
-
 	}
 
 	void limpiar() {
 		Date hoy = new Date();
-		/* cboTipo.setSelectedIndex(0); */
+		cboTipo.setSelectedIndex(0);
 		txtInicio.setDate(hoy);
 		txtFin.setDate(hoy);
 	}
-	void MostrarFecha(){
-		Date hoy = new Date();
-		txtInicio.setDate(hoy);
-		txtFin.setDate(hoy);}
-	
-	
+
 	void GenerarPDF() {
+		SimpleDateFormat sdf_fecha_corta = new SimpleDateFormat("dd/MM/yyyy");
+		SimpleDateFormat sdf_fecha_larga = new SimpleDateFormat("'Lima,' dd 'de' MMMM 'del' y, HH:mm:ss");	
+		String tipo_formateado = cboTipo.getSelectedItem().toString();
+		String fec_ini_formateado = txtInicio.getDate()==null?"":sdf_fecha_corta.format(txtInicio.getDate());
+		String fec_fin_formateado = txtFin.getDate()==null?"":sdf_fecha_corta.format(txtFin.getDate());
+		
+		
 		String tipo = leertipo();
 		String fec_ini = leerfec_ini();
 		String fec_fin = leerfec_fin();
 		GestionReporteComprobante gr = new GestionReporteComprobante();
-		ArrayList<ReporteProducto> lista = gr.listado(tipo, fec_ini, fec_fin);
+		ArrayList<ReporteComprobante> lista = gr.listado(tipo, fec_ini, fec_fin);
 		if (lista.isEmpty()) {
 			JOptionPane.showMessageDialog(null, "No hay datos para imprimir");
 
@@ -220,27 +223,34 @@ public class FrmReporte1 extends JInternalFrame {
 						FontFactory.getFont("arial", 30, Font.ITALIC, BaseColor.GREEN)));
 				doc.add(new Paragraph(" "));
 				doc.add(new Paragraph("Reporte Comprobantes"));
-				doc.add(new Paragraph("Tipo de comprobante: " + tipo + ", desde " + fec_ini + " hasta " + fec_fin));
 				doc.add(new Paragraph(" "));
-				PdfPTable tabla = new PdfPTable(6);
-				tabla.addCell("Nº Comprobante");
-				tabla.addCell("Registro");
+				if(fec_ini.equals("") && fec_fin.equals("")) {
+					doc.add(new Paragraph("Tipo de comprobante: " + tipo_formateado));
+				}else if(fec_ini.equals("")) {
+					doc.add(new Paragraph("Tipo de comprobante: " + tipo_formateado + ", hasta " + fec_fin_formateado));
+				}else if(fec_fin.equals("")) {
+					doc.add(new Paragraph("Tipo de comprobante: " + tipo_formateado + ", desde " + fec_ini_formateado));
+				}else {
+					doc.add(new Paragraph("Tipo de comprobante: " + tipo_formateado + ", desde " + fec_ini_formateado + " hasta " + fec_fin_formateado));
+				}
+				doc.add(new Paragraph(" "));
+				PdfPTable tabla = new PdfPTable(4);
+
+				tabla.addCell("Nro. Comp");
+				tabla.addCell("Fecha Registro");
+				tabla.addCell("Creador");
 				tabla.addCell("Cliente");
-				tabla.addCell("Producto");
-				tabla.addCell("Cantidad");
-				tabla.addCell("Monto");
-				for (ReporteProducto r : lista) {
+
+				for (ReporteComprobante r : lista) {
 					tabla.addCell(r.getCodigo() + "");
-					tabla.addCell(r.getRegistro());
+					tabla.addCell(r.getFecharegistro());
+					tabla.addCell(r.getCreador());
 					tabla.addCell(r.getCliente());
-					tabla.addCell(r.getProducto());
-					tabla.addCell(r.getCant() + "");
-					tabla.addCell(r.getPago() + "");
 				}
 				doc.add(tabla);
-				Date fecha = new Date();
-				SimpleDateFormat sdf = new SimpleDateFormat("'Lima,' dd 'de' MMMM 'del' y, HH:mm:ss");
-				doc.add(new Paragraph(sdf.format(fecha)));
+				Date hoy = new Date();
+
+				doc.add(new Paragraph(sdf_fecha_larga.format(hoy)));
 
 				/* fin del docuemento */
 				doc.close();
@@ -254,51 +264,42 @@ public class FrmReporte1 extends JInternalFrame {
 
 	}
 
-	void mostrarFecha() {
-
-		Date fecha = new Date();
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
-		txtInicio.setToolTipText(sdf.format(fecha));
-
+	String leertipo() {
+		int tp = cboTipo.getSelectedIndex();
+		switch (tp) {
+		case 1:
+			return "b";
+		case 2:
+			return "f";
+		default:
+			return "";
+		}
 	}
 
 	String leerfec_ini() {
-		try {
-			String f = null;
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-			f = sdf.format(txtInicio.getDate());
-			if (f != null)
-				return f;
-		} catch (Exception e) {
-			JOptionPane.showMessageDialog(this, "Ingrese la fecha de inicio de consulta");
+		String f = "";
+		if (txtInicio.getDate() != null) {
+			try {
+				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+				f = sdf.format(txtInicio.getDate());
+			} catch (Exception e) {
+				JOptionPane.showMessageDialog(this, "Error al formatear la fecha: " + e.getMessage());
+			}
 		}
-		return null;
+		return f;
 	}
 
 	String leerfec_fin() {
-		try {
-			String f = null;
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-			f = sdf.format(txtFin.getDate());
-			if (f != null)
-				return f;
-		} catch (Exception e) {
-			JOptionPane.showMessageDialog(this, "Ingrese la fecha de fin de consulta");
-		}
-		return null;
-	}
+		String f = "";
+		if (txtFin.getDate() != null) {
+			try {
+				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+				f = sdf.format(txtFin.getDate());
+			} catch (Exception e) {
+				JOptionPane.showMessageDialog(this, "Error al formatear la fecha: " + e.getMessage());
+			}
 
-	String leertipo() {
-		if (cboTipo.getSelectedIndex() == 0) {
-			JOptionPane.showMessageDialog(this, "Seleccione Tipo");
 		}
-
-		int tp = cboTipo.getSelectedIndex();
-		switch (tp) {
-		case 2:
-			return "F";
-		default:
-			return "B";
-		}
+		return f;
 	}
 }

@@ -541,10 +541,14 @@ public class FrmGuia extends JInternalFrame {
 	}
 
 	void limpiar() {
+		Date hoy = new Date();
 		txtNumero.setText("");
+		txtFechaTrasla.setDate(hoy);
 		cboHoras.setSelectedIndex(0);
 		cboMinutos.setSelectedIndex(0);
 		cboMotivo.setSelectedIndex(0);
+		txtPartida.setText("");
+		txtLlegada.setText("");
 		cboCliente.setSelectedIndex(0);
 		cboTransportista.setSelectedIndex(0);
 		cboEmpresa.setSelectedIndex(0);

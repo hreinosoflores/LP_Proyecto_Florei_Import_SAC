@@ -195,7 +195,7 @@ public class FrmPrincipal extends JFrame {
 		mntmReporte1.setIcon(new ImageIcon(FrmPrincipal.class.getResource("/iconos/reporte.png")));
 		mntmReporte1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				FrmReporte1 v = new FrmReporte1();
+				FrmReporteComprobante v = new FrmReporteComprobante();
 				escritorio.add(v);
 				v.setVisible(true);
 				Dimension desktopSize = escritorio.getSize();
