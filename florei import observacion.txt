@@ -1,0 +1,96 @@
+observaciones diseño bd florei escritorio
+1. usuario no tiene relacion con ninguna tabla 
+2. cliente destinatario esta relacionado con empresa remitente FK 
+3. detalle esta relacionado con (comprobante, guia, producto) PK
+4. guia tiene atributo peso total
+5. comprobante pago tiene fecha creacion date y hora creacion string separados
+6. guia no tiene hora de creacion
+7. usp_reportarcomprobante: concat(cp.fec_comp,' ',cp.hor_comp) as 'Registro en el sistema' 
+8. usp_reportarcomprobante: quien lo creo?
+
+justificacion de las observaciones
+1. usuario deberia tener relacion con las otras tablas para registrar quien crea o actualiza la informacion
+2. El remitente es la persona que hace el envío, mientras que el destinatario es la persona a la que va dirigida. No tiene sentido que la empresa le pertenezca a un solo cliente porque otro cliente puede escoger la misma empresa para que le envien los productos.
+3. para crear el documento comprobante con cabecera y detalle necesitaria crear la cabecera de una guia primero, lo cual seria un proceso innecesario puesto que solo algunas ventas requieren guia
+4. El peso debe ser atributo del producto, no de la guia. El peso total es calculado de la suma de peso x cantidad 
+5. no es necesario que fecha y hora esten en atributos separados
+6. se debe registrar la hora, el minuto y el segundo en que la guia fue registrada
+7. debe aparecer en el reporte fecha de creacion en el siguiente formato: 01/01/2000 00:00:00
+8. debe aparecer en el reporte nombre del creador del documento
+
+soluciones
+1. crear llave foranea entre usuario y cliente destinatario (usu_creador_cli), empresa remitente (usu_creado_emp), producto (usu_creador_prod), guia (usu_creador_gui), transportista (usu_creador_trans), comprobante (usu_creador_comp)
+2. eliminar llave foranea entre cliente y empresa
+3. eliminar tabla detalle y crear dos tablas: detalle_comp y detalle_gui
+4. eliminar atributo peso_tot de guia, crear atributo pes_unit en producto decimal(10,2)
+5. cambiar tipo de fec_comp a datetime(3), borrar atributo hor_comp, default hora del sistema
+6. cambiar tipo de fec_guia a datetime(3), default hora del sistema
+7. campo registro en el sistema con fec_comp formateada
+8. nuevo campo creador con nombre y apellido de usuario
+
+
+
+p:ty=''
+q:fec_ini='' 
+r:fec_fin=''
+
+p   |  q    |  r
+V	|	 V	|  V	   -> select * from vw_comprobante_tuneado;
+V   |    V  |  F       -> select * from vw_comprobante_tuneado where date(FecComp) <= fec_fin;
+V   |    F  |  V       -> select * from vw_comprobante_tuneado where date(FecComp) >= fec_ini;
+V   |    F  |  F       -> select * from vw_comprobante_tuneado where date(FecComp) between fec_ini and fec_fin;
+F   |    V  |  V       -> select * from vw_comprobante_tuneado where Tipo=ty;
+F   |    V  |  F       -> select * from vw_comprobante_tuneado where Tipo=ty and date(FecComp) <= fec_fin;
+F   |    F  |  V       -> select * from vw_comprobante_tuneado where Tipo=ty and date(FecComp) >= fec_ini;
+F   |    F  |  F       -> select * from vw_comprobante_tuneado where Tipo=ty and date(FecComp) between fec_ini and fec_fin;
+
+p:tip_uni=''
+q:stock1=0
+r:stock2=0
+s:desc_cont=''
+
+p   |  q    |  r	|  s
+V	|	V	|  V	|  V    -> select * from producto;
+V   |   V   |  V    |  F    -> select * from producto where desc_prod like concat('%',desc_cont,'%');
+V   |   V   |  F    |  V    -> select * from producto where stk_prod <= stock2;
+V   |   V   |  F    |  F    -> select * from producto where stk_prod <= stock2 and desc_prod like concat('%',desc_cont,'%');
+V   |   F   |  V    |  V    -> select * from producto where stk_prod >= stock1;
+V   |   F   |  V    |  F    -> select * from producto where stk_prod >= stock1 and desc_prod like concat('%',desc_cont,'%');
+V   |   F   |  F    |  V    -> select * from producto where stk_prod  between  stock1 and stock2;
+V   |   F   |  F    |  F    -> select * from producto where stk_prod  between  stock1 and stock2 and desc_prod like concat('%',desc_cont,'%');
+F	|	V	|	V	|  V	-> select * from producto where uni_med_prod = tip_uni;
+F	|	V	|	V	|  F    -> select * from producto where uni_med_prod = tip_uni and desc_prod like concat('%',desc_cont,'%');
+F	|	V	|	F	|  V    -> select * from producto where uni_med_prod = tip_uni and stk_prod <= stock2;
+F	|	V	|	F	|  F    -> select * from producto where uni_med_prod = tip_uni and stk_prod <= stock2 and desc_prod like concat('%',desc_cont,'%');
+F	|	F	|	V	|  V    -> select * from producto where uni_med_prod = tip_uni and stk_prod >= stock1;
+F	|	F	|	V	|  F    -> select * from producto where uni_med_prod = tip_uni and stk_prod >= stock1 and desc_prod like concat('%',desc_cont,'%');
+F	|	F	|	F	|  V    -> select * from producto where uni_med_prod = tip_uni and stk_prod  between  stock1 and stock2;
+F	|	F	|	F	|  F    -> select * from producto where uni_med_prod = tip_uni and stk_prod  between  stock1 and stock2 and desc_prod like concat('%',desc_cont,'%');
+
+
+
+
+delimiter $$
+create procedure usp_reportarproducto (tip_uni char(1),stock1 int,stock2 int,desc_cont varchar(50))
+begin 
+if tip_uni='' and stock1=0 and stock2=0 and desc_cont='' then select * from producto;
+elseif tip_uni='' and stock1=0 and stock2=0 then select * from producto where desc_prod like concat('%',desc_cont,'%');
+elseif tip_uni='' and stock1=0 and desc_cont='' then select * from producto where stk_prod <= stock2;
+elseif tip_uni='' and stock1=0 then select * from producto where stk_prod <= stock2 and desc_prod like concat('%',desc_cont,'%');
+elseif tip_uni='' and stock2=0 and desc_cont='' then select * from producto where stk_prod >= stock1;
+elseif tip_uni='' and stock2=0 then select * from producto where stk_prod >= stock1 and desc_prod like concat('%',desc_cont,'%');
+elseif tip_uni='' and desc_cont='' then select * from producto where stk_prod  between  stock1 and stock2;
+elseif tip_uni='' then select * from producto where stk_prod  between  stock1 and stock2 and desc_prod like concat('%',desc_cont,'%');
+elseif stock1=0 and stock2=0 and desc_cont='' then select * from producto where uni_med_prod = tip_uni;
+elseif stock1=0 and stock2=0 then select * from producto where uni_med_prod = tip_uni and desc_prod like concat('%',desc_cont,'%');
+elseif stock1=0 and desc_cont='' then select * from producto where uni_med_prod = tip_uni and stk_prod <= stock2;
+elseif stock1=0 then select * from producto where uni_med_prod = tip_uni and stk_prod <= stock2 and desc_prod like concat('%',desc_cont,'%');
+elseif stock2=0 and desc_cont='' then select * from producto where uni_med_prod = tip_uni and stk_prod >= stock1;
+elseif stock2=0 then select * from producto where uni_med_prod = tip_uni and stk_prod >= stock1 and desc_prod like concat('%',desc_cont,'%');
+elseif desc_cont='' then select * from producto where uni_med_prod = tip_uni and stk_prod  between  stock1 and stock2;
+else select * from producto where uni_med_prod = tip_uni and stk_prod  between  stock1 and stock2 and desc_prod like concat('%',desc_cont,'%');
+end if;
+end $$
+delimiter ;	
+
+
